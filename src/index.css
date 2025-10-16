@@ -1,0 +1,22 @@
+:root {
+  --background: #0A0A0A;
+  --content: #171717;
+  --red: #CE3046;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  background: none;
+  outline: none;
+  border: none;
+  color: white;
+  gap: 0;
+  text-decoration: none;
+}
+
+body {
+  background-color: var(--background);
+  overflow-x: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+}
