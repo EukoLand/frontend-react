@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 export const Container = styled.div`
-    width: 720px;
+    width: 100%;
     border-radius: 8px;
     background-color: var(--content);
     outline: 1px solid rgba(255, 255, 255, .1);
@@ -13,44 +13,65 @@ export const Container = styled.div`
     &:hover {
         outline: 1px solid rgba(255, 255, 255, .2);
     }
+    @media (min-width: 730px) {
+        width: 720px;
+    }
 `
 
 export const Preview = styled.button<{ $open: boolean }>`
     width: 100%;
-    height: 90px;
+    height: 70px;
     background-color: var(--content${({ $open }) => $open && '-second'});
     transition-duration: 200ms;
-    padding: 0 24px;
     border-radius: 8px;
     cursor: pointer;
     display: flex;
-    gap: 16px;
+    gap: 8px;
     align-items: center;
     position: relative;
+    padding: 0 12px;
     &:hover {
         background-color: var(--content-second);
+    }
+    @media (min-width: 730px) {
+        padding: 0 24px;
+        height: 90px;
+        gap: 16px;
     }
 `
 
 export const EmojiContainer = styled.div`
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 4px;
     background-color: rgba(var(--red-rgb), .1);
+    @media (min-width: 730px) {
+        width: 40px;
+        height: 40px;
+    }
 `
 
 export const Emoji = styled.h1`
+    font-size: 14px;
+    line-height: 18px;
     text-align: center;
-    font-size: 20px;
-    line-height: 28px;
+    @media (min-width: 730px) {
+        font-size: 20px;
+        line-height: 28px;
+    }
 `
 
 export const Header = styled.h2`
-    font-size: 20px;
+    font-size: 12px;
+    width: calc(100% - 8px - 30px);
     font-weight: 600;
+    @media (min-width: 730px) {
+        font-size: 20px;
+        width: auto;
+    }
 `
 
 export const Arrow = styled.div<{ $open: boolean }>`
@@ -61,12 +82,16 @@ export const Arrow = styled.div<{ $open: boolean }>`
     transform: translateY(-50%);
     right: 24px;
     transition-duration: .5s;
+    display: none;
     transition-timing-function: ease-out;
     & > span > svg {
         transition-duration: .5s;
         ${({ $open }) => $open && css`
             rotate: 180deg;
         `}
+    }
+    @media (min-width: 730px) {
+        display: block;
     }
 `
 
@@ -75,7 +100,7 @@ export const Content = styled.div<{ $open: boolean }>`
     ${({ $open }) => !$open ? css`
         max-height: 0vh;
     ` : css`
-        max-height: 25vh;
+        max-height: 40vh;
     `}
     overflow: hidden;
     box-sizing: border-box;
@@ -83,10 +108,15 @@ export const Content = styled.div<{ $open: boolean }>`
 `
 
 export const Text = styled.div`
-    width: calc(100% - 48px);
-    padding: 16px 24px 24px 24px;
-    font-size: 18px;
-    line-height: 26px;
+    width: calc(100% - 40px);
+    padding: 12px 20px 20px 20px;
+    font-size: 14px;
+    line-height: 20px;
     font-weight: 400;
     opacity: .5;
+    @media (min-width: 730px) {
+        font-size: 18px;
+        line-height: 26px;
+        padding: 16px 24px 24px 24px;
+    }
 `

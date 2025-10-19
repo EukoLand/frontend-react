@@ -9,11 +9,15 @@ export const Container = styled.div`
 `
 
 export const Content = styled.div`
-    padding: 60px 0;
+    padding: 20px 0;
     display: flex;
     width: 1200px;
-    gap: 32px;
+    gap: 16px;
     flex-direction: column;
+    @media (min-width: 1000px) {
+        padding: 60px 0;
+        gap: 32px;
+    }
 `
 
 export const Line = styled.div`
@@ -24,11 +28,11 @@ export const Line = styled.div`
 
 export const Links = styled.div`
     display: grid;
-    grid-template-columns: repeat(1, 1fr); /* По умолчанию 1 колонка */
-    gap: 2rem; /* Промежуток между элементами */
-    margin-bottom: 2rem; /* Нижний отступ */
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+    margin-bottom: 2rem;
     @media (min-width: 768px) {
-        grid-template-columns: repeat(3, 1fr); /* 3 колонки на экранах от medium */
+        grid-template-columns: repeat(3, 1fr);
     }
 `
 
@@ -36,6 +40,10 @@ export const Column = styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;
+    padding: 0 10px;
+    @media (min-width: 1000px) {
+        padding: 0;
+    }
 `
 
 export const ColumnTitle = styled.h6`
@@ -86,14 +94,34 @@ export const SubLogo = styled.p`
 `
 
 export const SubContent = styled.div`
-    width: 100%;
+    width: calc(100% - 20px);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 10px;
+    @media (min-width: 1000px) {
+        flex-direction: row;
+        padding: 0;
+    }
 `
 
 export const SubText = styled.p`
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
     opacity: .5;
+    max-width: 100%;
+    @media (min-width: 1000px) {
+        font-size: 14px;
+    }
+`
+
+export const Logo = styled.h4`
+    font-size: 28px;
+    font-weight: 700;
+    transition-duration: 600ms;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 `

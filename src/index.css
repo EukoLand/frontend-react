@@ -1,9 +1,10 @@
 :root {
   --background: #0A0A0A;
-  --content: #171717;
   --red: #CE3046;
   --red-rgb: 206, 48, 70;
+  --content: #171717;
   --content-second: #262626;
+  --content-third: #323232;
 }
 
 * {

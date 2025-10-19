@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Element = styled.div`
-    width: 720px;
+    width: calc(100% - 48px);
     padding: 24px;
     border-radius: 8px;
     border-left: 4px solid var(--red);
@@ -10,18 +10,27 @@ export const Element = styled.div`
     display: flex;
     flex-direction: column;
     gap: 8px;
+    @media (min-width: 800px) {
+        width: 720px;
+    }
 `
 
 export const Header = styled.h3`
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 700;
+    @media (min-width: 800px) {
+        font-size: 24px;
+    }
 `
 
 export const Paragraph = styled.p`
-    font-size: 16px;
+    font-size: 14px;
     color: rgba(255, 255, 255, .5);
     font-weight: 400;
     margin-bottom: 4px;
+    @media (min-width: 800px) {
+        font-size: 16px;
+    }
 `
 
 export const StartLink = styled(Link)`
@@ -47,8 +56,11 @@ export const StartLink = styled(Link)`
 
 export const IpContainer = styled.div`
     width: 100%;
-    height: 60px;
+    height: 50px;
     position: relative;
+    @media (min-width: 1000px) {
+        height: 60px;
+    }
 `
 
 export const IpContent = styled.div`
@@ -59,10 +71,13 @@ export const IpContent = styled.div`
     height: 100%;
     display: flex;
     align-items: center;
-    font-size: 24px;
+    font-size: 16px;
     font-family: 'Courier New', Courier, monospace;
     gap: 12px;
     & > h5 { font-weight: 300; }
+    @media (min-width: 800px) {
+        font-size: 24px;
+    }
 `
 
 export const IpTitle = styled.h4`
@@ -92,15 +107,21 @@ export const UnderIp = styled.div`
 `
 
 export const Version = styled.h6`
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 300;
     opacity: .5;
+    @media (min-width: 800px) {
+        font-size: 16px;
+    }
 `
 
 export const Copied = styled.h6<{ $visibal: boolean }>`
-    font-size: 16px;
+    font-size: 12px;
     margin-right: 8px;
     opacity: ${(props) => props.$visibal ? 1 : 0};
     transition-duration: 200ms;
     color: var(--red);
+    @media (min-width: 800px) {
+        font-size: 16px;
+    }
 `

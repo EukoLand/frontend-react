@@ -8,11 +8,17 @@ export const Container = styled.div`
 `
 
 export const Content = styled.div`
-    width: 1200px;
+    width: calc(100% - 20px);
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 20px;
     align-items: center;
+    @media (min-width: 1240px) {
+        width: 1200px;
+    }
+    @media (min-width: 1000px) {
+        gap: 32px;
+    }
 `
 
 export const Titles = styled.div`
@@ -23,16 +29,22 @@ export const Titles = styled.div`
 `
 
 export const Title = styled.h1`
-    font-weight: 800px;
-    font-size: 48px;
+    font-size: 28px;
+    font-weight: 800;
     & > span {
         color: var(--red);
+    }
+    @media (min-width: 1000px) {
+        font-size: 48px;
     }
 `
 
 export const Subtitle = styled.h2`
     font-size: 18px;
     color: rgba(255, 255, 255, .5);
-    margin-bottom: 64px;
+    text-align: center;
     font-weight: 300;
+    @media (min-width: 1240px) {
+        margin-bottom: 64px;
+    }
 `

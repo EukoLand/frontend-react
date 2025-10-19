@@ -1,6 +1,5 @@
 import { FaDiscord, FaTelegram } from "react-icons/fa";
-import Logo from "../logo";
-import { Column, ColumnLink, ColumnList, ColumnText, ColumnTitle, Container, Content, Line, Links, SubContent, SubLogo, SubText } from "./styled";
+import { Column, ColumnLink, ColumnList, ColumnText, ColumnTitle, Container, Content, Line, Links, Logo, SubContent, SubLogo, SubText } from "./styled";
 
 export default function Footer() {
     return(
@@ -9,7 +8,10 @@ export default function Footer() {
                 <Links>
                     <Column>
                         <ColumnTitle>
-                            <Logo anim={false} size={24} />
+                            <Logo>
+                                <span>Euko</span>
+                                <span style={{ color: "var(--red)" }}>Land</span>
+                            </Logo>
                         </ColumnTitle>
                         <SubLogo>
                             Полу-ванильный сервер Minecraft с продуманным балансом и дружелюбным сообществом.
