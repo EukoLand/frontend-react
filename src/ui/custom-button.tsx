@@ -15,6 +15,7 @@ interface IProps {
     $outline?: string;
     $gap?: number;
     $stroke?: string;
+    $size?: [string, string];
 }
 
 const mainStyles = css<IProps>`
@@ -38,6 +39,14 @@ const mainStyles = css<IProps>`
     color: ${ (props) => props.$color || 'white' };
     border-radius: ${ (props) => props.$rounded || '9999' }px;
     stroke: ${(props) => props.$stroke || "white"};
+    ${(props) => props.$size !== undefined && css`
+        width: ${props.$size[0]};
+        height: ${props.$size[1]};
+    `}
+    &:disabled {
+        opacity: .5;
+        cursor: not-allowed;
+    }
     &:hover {
         ${(props) => {
             if(props.$animation === undefined) return;

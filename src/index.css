@@ -5,6 +5,9 @@
   --content: #171717;
   --content-second: #262626;
   --content-third: #323232;
+  --content-fourth: #464646;
+  --green: oklch(72.3% 0.219 149.579);
+  --green-rgb: 0, 201, 80;
 }
 
 * {

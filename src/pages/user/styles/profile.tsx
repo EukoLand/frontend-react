@@ -3,6 +3,8 @@ import styled, { css } from "styled-components"
 export const Profile = styled.div`
     width: 100%;
     position: relative;
+    height: 72px;
+    margin-bottom: 40px;
 `
 
 export const ProfileText = styled.div`
