@@ -25,11 +25,24 @@ export const InfoPart = styled.div`
     gap: 24px;
 `
 
+const skinAppear = keyframes`
+    from {
+        opacity: 0;
+    }
+`
+
 export const Skin = styled.div`
     padding: 8px;
     border-radius: 8px;
     background-color: var(--content-third);
     outline: 1px solid var(--content-fourth);
+    animation: .5s ease-in-out ${skinAppear};
+`
+
+export const SkinSkeleton = styled.div`
+    width: 216px;
+    height: 420px;
+    opacity: 0;
 `
 
 export const Block = styled.div`

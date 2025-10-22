@@ -11,6 +11,7 @@ interface Form {
 export default function ChangeNick() {
     const [open, setOpen] = useState<boolean>(false);
     const [anim, setAnim] = useState<boolean>(false);
+    const [block, setBlock] = useState<boolean>(false);
     const { register, handleSubmit, formState: { errors }, watch, reset } = useForm<Form>({
         mode: 'onChange',
         reValidateMode: 'onBlur',
@@ -18,13 +19,21 @@ export default function ChangeNick() {
 
     const value = watch('username', '');
 
+    const onOpen = () => {
+        setBlock(true);
+        setOpen(true)
+        setTimeout(() => setBlock(false), 1100)
+    }
+
     const onClose = () => {
+        setBlock(true)
         setAnim(true)
         setTimeout(() => {
             setOpen(false)
             setAnim(false)
             reset()
-        }, 1000)
+            setBlock(false)
+        }, 950)
     }
 
     const onSubmit: SubmitHandler<Form> = (data) => {
@@ -34,19 +43,21 @@ export default function ChangeNick() {
     return(
         <>
             <CustomButton
-                onClick={() => setOpen(true)}
+                onClick={onOpen}
                 $padding={[0, 0]}
                 $size={['120px', ' 100%']}
                 $background="var(--red)"
                 $animation="background"
                 $animationvalue="rgba(var(--red-rgb), .75)"
                 $rounded={8}
+                disabled={block}
             >
                 Изменить
             </CustomButton>
             {
                 (open || anim) &&
                                         <Modal 
+                                        block={block}
                                             open={open} 
                                             anim={anim} 
                                             onClose={onClose}

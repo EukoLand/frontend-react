@@ -39,23 +39,36 @@ const contentDisappear = keyframes`
 `
 
 export const Content = styled.div<{ $open: boolean, $anim: boolean }>`
-    width: 560px;
+    width: calc(100% - 20px);
     position: absolute;
     left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    top: 10px;
+    transform: translateX(-50%);
     z-index: 100;
-    display: flex;
     flex-direction: column;
-    padding: 24px;
+    padding: 16px;
     gap: 16px;
     background-color: var(--content-second);
     border-radius: 16px;
+    max-height: calc(100vh - 20px);
+    box-sizing: border-box;
+    overflow-y: auto;
     outline: 1px solid var(--content-third);
+    -ms-overflow-style: none;
+    scrollbar-width: none;
     ${({ $open, $anim }) => ($open || $anim) ? css`
         display: flex;
-        animation: 1s ease-in-out ${$anim ? contentDisappear : contentAppear}
+        animation: 1s ease-in-out ${$anim ? contentDisappear : contentAppear};
     `: css`display: none;`}
+    @media (min-width: 640px) {
+        width: 560px;
+        padding: 24px;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+    &::-webkit-scrollbar {
+        display: none;
+    }
 `
 
 export const BgCloser = styled.button`
@@ -70,4 +83,14 @@ export const BgCloser = styled.button`
 export const Label = styled.h1`
     font-size: 24px;
     font-weight: 600;
+`
+
+export const Blocker = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 1000;
+    opacity: 0;
 `

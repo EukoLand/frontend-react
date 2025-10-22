@@ -1,12 +1,13 @@
 import { Outlet, useLocation } from "react-router-dom";
-import { Container, OutletContainer, OutletContent, OutletHeader, Sidebar, SideLink } from "./styles";
+import { Container, CurrentLink, Links, MenuButton, MenuButtonLine, OutletContainer, OutletContent, OutletHeader, Sidebar, SideLink } from "./styles";
 import { Down } from "@icon-park/react";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Arrow, Avatar, Profile, ProfileButton, ProfileText, Role, Username } from "./styles/profile";
 import { Character, CharacterAvatar, CharacterName, CharactersList, CharacterText, CharacterType, LinkedAccounts } from "./styles/character";
 import { IoIosLink } from "react-icons/io";
 import { BsPerson } from "react-icons/bs";
 import { FaRegCreditCard } from "react-icons/fa6";
+import { GoShieldLock } from "react-icons/go";
 
 interface Account {
     skin: string;
@@ -58,24 +59,53 @@ const routes: Route[] = [
         label: 'Кошелёк',
         route: '/user/wallet',
         icon: <FaRegCreditCard fill="inherit" size={20} />,
+    },
+    {
+        label: 'Безопасность',
+        route: '/user/security',
+        icon: <GoShieldLock fill="inherit" size={20} />,
     }
 ]
 
 export default function UserLayout() {
     const [account, setAccount] = useState<boolean>();
     const [accountAnim, setAccountAnim] = useState<boolean>(false);
+    const [opened, setOpened] = useState<boolean>(false);
+    const [closing, setClosing] = useState<boolean>(false);
     const location = useLocation();
+
+    useEffect(() => {
+        if(opened) document.body.style.overflow = "hidden";
+        else if (!closing) document.body.style.overflow = "auto"
+    }, [opened, closing])
+
     const profileHandler = () => {
         if(accountAnim) return;
         setAccountAnim(true);
         setAccount(prev => prev === undefined ? true : !prev)
         setTimeout(() => {
             setAccountAnim(false);
-        }, 500)
+        }, 450)
     }
+
+    const hide = () => {
+        setClosing(true)
+        setTimeout(() => {
+            setOpened(false)
+            setClosing(false)
+        }, 200)
+    }
+
     return(
         <Container>
-            <Sidebar>
+            <MenuButton 
+                $opened={opened} 
+                onClick={() => opened ? hide() : setOpened(true)}
+                disabled={closing}
+            >
+                { [...Array(3)].map((_, index) => <MenuButtonLine key={index} />) }
+            </MenuButton>
+            <Sidebar $open={opened}>
                 <Profile>
                     <ProfileButton disabled={accountAnim} onClick={profileHandler}>
                         <Avatar src="/profile/steve.png" />
@@ -113,14 +143,17 @@ export default function UserLayout() {
                         </LinkedAccounts>
                     </CharactersList>
                 </Profile>
-                {
-                    routes.map((el, index) => 
-                        <SideLink key={index} to={el.route}>
-                            { el.icon }
-                            { el.label }
-                        </SideLink>
-                    )
-                }
+                <Links>
+                    <CurrentLink $index={routes.map(el => el.route).indexOf(location.pathname)} />
+                    {
+                        routes.map((el, index) => 
+                            <SideLink key={index} to={el.route}>
+                                { el.icon }
+                                { el.label }
+                            </SideLink>
+                        )
+                    }
+                </Links>
             </Sidebar>
             <OutletContainer>
                 <OutletContent>

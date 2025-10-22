@@ -1,22 +1,36 @@
 import { MinecraftSkinViewer } from "@wiicamp/react-minecraft-skin-viewer";
-import { Block, Container, Header, InfoPart, Nickname, NicknameText, Skin, SkinPart, Status, StatusContent, StatusPinger, Subcontent, Till } from "./styles";
+import { Block, Container, Header, InfoPart, Nickname, NicknameText, Skin, SkinPart, SkinSkeleton, Status, StatusContent, StatusPinger, Subcontent, Till } from "./styles";
 import { CustomButton } from "@/ui/custom-button";
 import ChangeNick from "./components/change-nick";
+import { useEffect, useState } from "react";
 
 export default function Profile() {
+    // Ждём 250 мс перед показом скина для оптимизации сайдбара
+    const [skin, setSkin] = useState<boolean>(false);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setSkin(true);
+        }, 250)
+    }, [setSkin])
+
     return(
         <Container>
             <SkinPart>
-                <Skin>
-                    <MinecraftSkinViewer 
-                        width={200}
-                        height={400}
-                        background="#323232"
-                        control
-                        walk
-                        skin="https://minotar.net/skin/user"
-                    />
-                </Skin>
+                {
+                    skin ? 
+                            <Skin>
+                                <MinecraftSkinViewer 
+                                    width={200}
+                                    height={400}
+                                    background="#323232"
+                                    control
+                                    walk
+                                    skin="https://minotar.net/skin/user"
+                                />
+                            </Skin>
+                        : <SkinSkeleton />
+                }
                 <CustomButton
                     $padding={[8, 0]}
                     $size={["100%", "auto"]}

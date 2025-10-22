@@ -4,29 +4,43 @@ export const Container = styled.div`
     display: flex;
     width: 100%;
     flex-direction: column;
-    gap: 32px;
+    gap: 16px;
+    @media (min-width: 600px) {
+        gap: 32px;
+    }
 `
 
 export const Tokens = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: calc(100% - 64px);
-    padding: 32px;
-    border-radius: 12px;
+    width: calc(100% - 48px);
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 24px;
+    border-radius: 8px;
     background-color: var(--content-second);
     outline: 1px solid var(--content-third);
+    @media (min-width: 600px) {
+        border-radius: 12px;
+        width: calc(100% - 64px);
+        padding: 32px;
+    }
 `
 
 export const History = styled.div`
     display: flex;
-    width: calc(100% - 48px);
-    padding: 24px;
+    width: calc(100% - 32px);
+    padding: 16px;
     border-radius: 12px;
     background-color: var(--content-second);
     outline: 1px solid var(--content-third);
     flex-direction: column;
     gap: 12px;
+    @media (min-width: 600px) {
+        width: calc(100% - 48px);
+        padding: 24px;
+    }
 `
 
 export const HistoryLabel = styled.h4`
@@ -37,17 +51,23 @@ export const HistoryLabel = styled.h4`
 
 export const Transaction = styled.div`
     width: calc(100% - 32px);
-    padding: 16px;
+    padding: 12px 16px;
     display: flex;
     justify-content: space-between;
     background-color: var(--content-third);
     border-radius: 8px;
     align-items: center;
+    @media (min-width: 600px) {
+        padding: 16px;
+    }
 `
 
 export const TransactionLeft = styled.div`
     display: flex;
-    gap: 12px;
+    gap: 6px;
+    @media (min-width: 600px) {
+        gap: 12px;
+    }
 `
 
 export const TransactionIcon = styled.div<{ $red: boolean }>`
@@ -92,21 +112,33 @@ export const TransactionValue = styled.h4<{ $red: boolean }>`
 export const Balance = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
+    @media (min-width: 600px) {
+        gap: 8px;
+    }
 `
 
 export const BalanceTitle = styled.h3`
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     opacity: .5;
+    @media (min-width: 600px) {
+        font-size: 16px;
+    }
 `
 
 export const BalanceValue = styled.h1`
     font-weight: 700;
-    font-size: 48px;
+    font-size: 40px;
     & > span {
         font-size: 24px;
         opacity: .5;
         font-weight: 500;
+    }
+    @media (min-width: 600px) {
+        font-size: 48px;
+        & > span {
+            font-size: 24px;
+        }
     }
 `

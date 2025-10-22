@@ -16,6 +16,7 @@ interface IProps {
     $gap?: number;
     $stroke?: string;
     $size?: [string, string];
+    $fullOn?: number;
 }
 
 const mainStyles = css<IProps>`
@@ -33,15 +34,17 @@ const mainStyles = css<IProps>`
         `${props.$padding[0]}px ${props.$padding[1]}px` : 
         '16px' 
     };
-    width: fit-content;
     cursor: pointer;
     outline: ${( props ) => props.$outline || 'none' };
     color: ${ (props) => props.$color || 'white' };
     border-radius: ${ (props) => props.$rounded || '9999' }px;
     stroke: ${(props) => props.$stroke || "white"};
-    ${(props) => props.$size !== undefined && css`
+    ${(props) => props.$size !== undefined ? css`
         width: ${props.$size[0]};
         height: ${props.$size[1]};
+    ` : css`
+        width: fit-content;
+        height: fit-content;
     `}
     &:disabled {
         opacity: .5;
@@ -91,6 +94,11 @@ const mainStyles = css<IProps>`
             }
         }}
     }
+    ${(props) => props.$fullOn !== undefined && css`
+        @media (max-width: ${props.$fullOn}px) {
+            width: 100%;
+        }
+    `}
 `
 
 export const CustomButton = styled.button<IProps>`${mainStyles}`

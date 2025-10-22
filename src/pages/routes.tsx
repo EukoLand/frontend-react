@@ -3,6 +3,7 @@ import HomePage from "./home";
 import UserLayout from "./user/layout";
 import Profile from "./user/profile";
 import Wallet from "./user/wallet";
+import Security from "./user/security";
 
 export const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
             {
                 path: '/user/wallet',
                 Component: Wallet,
+            },
+            {
+                path: '/user/security',
+                Component: Security,
             }
         ]
     }

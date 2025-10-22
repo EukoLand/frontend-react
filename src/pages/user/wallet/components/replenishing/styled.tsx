@@ -109,29 +109,40 @@ export const PaymentMethods = styled.div`
 export const MethodContainer = styled.button<{ $curr: boolean }>`
     width: 100%;
     outline: 1px solid var(--${({ $curr }) => $curr ? 'red' : 'content-fourth' });
-    padding: 16px;
+    padding: 12px;
     display: flex;
     border-radius: 12px;
     transition-duration: 200ms;
     justify-content: space-between;
     text-align: left;
     align-items: center; 
+    @media (min-width: 600px) {
+        padding: 16px;
+    }
 `
 
 export const MethodLeft = styled.div`
-    height: 44px;
+    height: 36px;
     display: flex;
     gap: 12px;
+    @media (min-width: 600px) {
+        height: 44px;
+    }
 `
 
 export const MethodIcon = styled.div<{ $color: string }>`
-    width: 44px;
-    height: 44px;
+    min-width: 36px;
+    width: 36px;
+    height: 36px;
     background-color: rgba(${({ $color }) => $color }, .1);
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
+    @media (min-width: 600px) {
+        width: 44px;
+        height: 44px;
+    }
 `
 
 export const MethodText = styled.div`
@@ -142,12 +153,18 @@ export const MethodText = styled.div`
 `
 
 export const MethodLabel = styled.h3`
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 300;
+    @media (min-width: 600px) {
+        font-size: 16px;
+    }
 `
 
 export const MethodSubtitle = styled.h5`
     opacity: .5;
-    font-size: 14px;
+    font-size: 10px;
     font-weight: 300;
+    @media (min-width: 600px) {
+        font-size: 14px;
+    }
 `

@@ -1,7 +1,27 @@
 import { CustomButton } from "@/ui/custom-button";
 import Modal from "@/ui/modal";
 import { useState, type ReactNode } from "react";
-import { Block, BlockLabel, Buttons, Line, MethodContainer, MethodIcon, MethodLabel, MethodLeft, MethodSubtitle, MethodText, PaymentMethods, Subvalue, SummaryBlock, SummaryContainer, SummaryTitle, SummaryValue, Value, ValueContainer, Values } from "./styled";
+import { 
+    Block, 
+    BlockLabel, 
+    Buttons, 
+    Line, 
+    MethodContainer, 
+    MethodIcon, 
+    MethodLabel, 
+    MethodLeft, 
+    MethodSubtitle,
+    MethodText, 
+    PaymentMethods, 
+    Subvalue, 
+    SummaryBlock, 
+    SummaryContainer, 
+    SummaryTitle, 
+    SummaryValue, 
+    Value, 
+    ValueContainer, 
+    Values 
+} from "./styled";
 import { FaDiscord, FaRegCreditCard } from "react-icons/fa6";
 import { GrStatusGood } from "react-icons/gr";
 
@@ -13,6 +33,7 @@ interface PaymentMethod {
     label: string;
     currency: string;
     subtitle: string;
+    perOne: number;
 }
 
 const methods: PaymentMethod[] = [
@@ -22,6 +43,7 @@ const methods: PaymentMethod[] = [
         label: 'Банковская карта',
         currency: '$',
         subtitle: 'ЕС, Украина, Казахстан (Stripe)',
+        perOne: 0.1,
     },
     {
         icon: <FaDiscord stroke="rgb(97, 95, 255)" fill="rgb(97, 95, 255)" size={24} />,
@@ -29,23 +51,39 @@ const methods: PaymentMethod[] = [
         label: 'Тикет Discord',
         currency: '₽',
         subtitle: 'Российские карты',
+        perOne: 8,
     },
 ]
 
 export default function Replenishing() {
     const [open, setOpen] = useState<boolean>(false);
     const [anim, setAnim] = useState<boolean>(false);
+    const [block, setBlock] = useState<boolean>(false);
     const [curr, setCurr] = useState<number | undefined>(undefined);
     const [currency, setCurrency] = useState<PaymentMethod | undefined>(undefined);
 
+    const onOpen = () => {
+        setBlock(true);
+        setOpen(true);
+        setTimeout(() => setBlock(false), 1100)
+    }
+
     const onClose = () => {
+        setBlock(true)
         setAnim(true)
         setTimeout(() => {
             setOpen(false)
             setAnim(false)
             setCurr(undefined)
             setCurrency(undefined)
-        }, 1000)
+            setBlock(false)
+        }, 950)
+    }
+
+    const formatCurrency = (value: number) => {
+        if(currency === undefined) return '—';
+        else if(['₽'].indexOf(currency?.currency) !== -1) return `${value.toFixed(2)}${currency.currency}`
+        else return `${currency.currency} ${value.toFixed(2)}`
     }
 
     return(
@@ -59,11 +97,13 @@ export default function Replenishing() {
                 $weight={600}
                 $animation="background"
                 $animationvalue="rgba(255, 255, 255, .1)"
-                onClick={() => setOpen(true)}
+                onClick={onOpen}
+                disabled={block}
             >
                 Пополнить кошелёк
             </CustomButton>
             <Modal 
+                block={block}
                 onClose={onClose} 
                 open={open} 
                 anim={anim}
@@ -113,7 +153,7 @@ export default function Replenishing() {
                                         Цена за токен:
                                     </SummaryTitle>
                                     <SummaryValue>
-                                        &mdash;
+                                        { currency === undefined ? '—' : formatCurrency(currency.perOne) }
                                     </SummaryValue>
                                 </SummaryBlock>
                                 <Line />
@@ -122,7 +162,7 @@ export default function Replenishing() {
                                         Итого:
                                     </SummaryTitle>
                                     <SummaryValue $main>
-                                        &mdash;
+                                        { currency !== undefined ? formatCurrency(curr*currency.perOne) : '—' }
                                     </SummaryValue>
                                 </SummaryBlock>
                             </SummaryContainer>
@@ -151,9 +191,15 @@ export default function Replenishing() {
                                                         </MethodSubtitle>
                                                     </MethodText>
                                                 </MethodLeft>
-                                                {
-                                                    el === currency && <GrStatusGood size={24} stroke="var(--red)" fill="var(--red)" />
-                                                }
+                                                <GrStatusGood 
+                                                    style={{ 
+                                                        opacity: el === currency ? '1' : '0',
+                                                        transitionDuration: `200ms`,
+                                                    }} 
+                                                    size={24} 
+                                                    stroke="var(--red)" 
+                                                    fill="var(--red)" 
+                                                />
                                             </MethodContainer>
                                         )
                                     }
@@ -164,6 +210,7 @@ export default function Replenishing() {
                 <Buttons>
                     <CustomButton
                         onClick={onClose}
+                        disabled={anim || !open}
                         type="button"
                         $background="var(--content-third)"
                         $animation="background"

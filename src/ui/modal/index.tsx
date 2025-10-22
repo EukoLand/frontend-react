@@ -1,5 +1,5 @@
 import { useEffect, type ReactNode } from "react";
-import { BgCloser, Container, Content, Label } from "./styled";
+import { BgCloser, Blocker, Container, Content, Label } from "./styled";
 
 interface Props { 
     open: boolean;
@@ -7,9 +7,10 @@ interface Props {
     children: ReactNode;
     onClose: () => void;
     label?: string;
+    block: boolean;
 }
 
-export default function Modal({ open, anim, onClose, children, label }: Props) {
+export default function Modal({ open, anim, onClose, children, label, block }: Props) {
     useEffect(() => {
         if(open) document.body.style.overflow = "hidden";
         else if (!anim) document.body.style.overflow = "auto"
@@ -17,6 +18,7 @@ export default function Modal({ open, anim, onClose, children, label }: Props) {
 
     return(
         <Container $open={open} $anim={anim}>
+            { block && <Blocker /> }
             <BgCloser onClick={onClose}>
                 Вы не должны этого видеть
             </BgCloser>
