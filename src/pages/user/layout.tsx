@@ -8,6 +8,7 @@ import { IoIosLink } from "react-icons/io";
 import { BsPerson } from "react-icons/bs";
 import { FaRegCreditCard } from "react-icons/fa6";
 import { GoShieldLock } from "react-icons/go";
+import { MdBlock } from "react-icons/md";
 
 interface Account {
     skin: string;
@@ -49,6 +50,11 @@ interface Route {
     icon: ReactNode;
 }
 
+interface IgnoredRoute {
+    label: string;
+    route: string;
+}
+
 const routes: Route[] = [
     {
         label: 'Профиль',
@@ -61,9 +67,23 @@ const routes: Route[] = [
         icon: <FaRegCreditCard fill="inherit" size={20} />,
     },
     {
+        label: 'Ограничения',
+        route: '/user/sanctions',
+        icon: <MdBlock fill="inherit" size={20} />,
+    },
+    {
         label: 'Безопасность',
         route: '/user/security',
         icon: <GoShieldLock fill="inherit" size={20} />,
+    },
+]
+
+const ignoreRoutes = ['/user/linked-accounts']
+
+const ignoredHeaders: IgnoredRoute[] = [
+    {
+        label: 'Привязанные аккаунты',
+        route: '/user/linked-accounts',
     }
 ]
 
@@ -76,7 +96,7 @@ export default function UserLayout() {
 
     useEffect(() => {
         if(opened) document.body.style.overflow = "hidden";
-        else if (!closing) document.body.style.overflow = "auto"
+        else document.body.style.overflow = "auto"
     }, [opened, closing])
 
     const profileHandler = () => {
@@ -144,7 +164,11 @@ export default function UserLayout() {
                     </CharactersList>
                 </Profile>
                 <Links>
-                    <CurrentLink $index={routes.map(el => el.route).indexOf(location.pathname)} />
+                    {
+                        !ignoreRoutes.includes(location.pathname) && 
+                        <CurrentLink $index={routes.map(el => el.route).indexOf(location.pathname)} />
+                    }
+                    
                     {
                         routes.map((el, index) => 
                             <SideLink key={index} to={el.route}>
@@ -157,9 +181,16 @@ export default function UserLayout() {
             </Sidebar>
             <OutletContainer>
                 <OutletContent>
-                    <OutletHeader>
-                        { routes.filter(el => el.route === location.pathname)[0].label }
-                    </OutletHeader>
+                    {
+                        !ignoreRoutes.includes(location.pathname) ?
+                            <OutletHeader>
+                                { routes.filter(el => el.route === location.pathname)[0].label }
+                            </OutletHeader>
+                            :
+                            <OutletHeader>
+                                { ignoredHeaders.filter(el => el.route === location.pathname)[0].label }
+                            </OutletHeader>
+                    }
                     <Outlet />
                 </OutletContent>
             </OutletContainer>

@@ -17,6 +17,7 @@ interface IProps {
     $stroke?: string;
     $size?: [string, string];
     $fullOn?: number;
+    $hideOn?: number;
 }
 
 const mainStyles = css<IProps>`
@@ -97,6 +98,11 @@ const mainStyles = css<IProps>`
     ${(props) => props.$fullOn !== undefined && css`
         @media (max-width: ${props.$fullOn}px) {
             width: 100%;
+        }
+    `}
+    ${(props) => props.$hideOn !== undefined && css`
+        @media (max-width: ${props.$hideOn}px) {
+            display: none;
         }
     `}
 `

@@ -4,25 +4,36 @@ export const Container = styled.div`
     width: calc(100% - 48px);
     display: flex;
     padding: 24px;
-    gap: 24px;
+    gap: 16px;
     background-color: var(--content-second);
     border-radius: 8px;
     outline: 1px solid var(--content-third);
+    flex-direction: column;
+    @media (min-width: 600px) {
+        flex-direction: row;   
+        gap: 24px;
+    }
 `
 
 export const SkinPart = styled.div`
-    width: 216px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 16px;
+    @media (min-width: 600px) {
+        width: 216px;
+    }
 `
 
 export const InfoPart = styled.div`
-    width: calc(100% - 216px - 24px);
+    width: 100%;
     padding-top: 8px;
     display: flex;
     flex-direction: column;
     gap: 24px;
+    @media (min-width: 800px) {
+        width: calc(100% - 216px - 24px);
+    }
 `
 
 const skinAppear = keyframes`
@@ -37,6 +48,9 @@ export const Skin = styled.div`
     background-color: var(--content-third);
     outline: 1px solid var(--content-fourth);
     animation: .5s ease-in-out ${skinAppear};
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 
 export const SkinSkeleton = styled.div`
@@ -67,11 +81,18 @@ export const Nickname = styled.div`
     display: flex;
     width: 100%;
     justify-content: space-between;
-    height: 48px;
+    height: 104px;
+    flex-direction: column;
+    align-items: flex-end;
+    @media (min-width: 800px) {
+        flex-direction: row;
+        align-items: center;
+        height: 48px;
+    }
 `
 
 export const NicknameText = styled.h6`
-    width: calc(100% - 12px - 120px - 32px);
+    width: calc(100% - 32px);
     border-radius: 8px;
     outline: 1px solid var(--content-fourth);
     background-color: var(--content-third);
@@ -82,6 +103,9 @@ export const NicknameText = styled.h6`
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    @media (min-width: 800px) {
+        width: calc(100% - 12px - 120px - 32px);
+    }
 `
 
 export const Status = styled.div`

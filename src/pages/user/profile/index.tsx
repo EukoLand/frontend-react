@@ -33,12 +33,13 @@ export default function Profile() {
                 }
                 <CustomButton
                     $padding={[8, 0]}
-                    $size={["100%", "auto"]}
+                    $size={["48px", "auto"]}
                     $rounded={8}
                     $background="var(--content-third)"
                     $weight={500}
                     $animation="background"
                     $animationvalue="var(--content-fourth)"
+                    $fullOn={600}
                 >
                     Загрузить скин
                 </CustomButton>

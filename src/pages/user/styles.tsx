@@ -68,8 +68,16 @@ export const OutletContent = styled.div`
 `
 
 export const OutletHeader = styled.h1`
-    font-size: 32px;
-    font-weight: 700;
+    font-size: 24px;
+    font-weight: 600;
+    width: 100%;
+    text-align: center;
+    @media (min-width: 600px) {
+        font-weight: 700;
+        font-size: 32px;
+        width: fit-content;
+        text-align: left;
+    }
 `
 
 export const Links = styled.div`

@@ -23,14 +23,26 @@ export const CharactersList = styled.div<{ $open?: boolean, $anim: boolean }>`
     top: 84px;
     left: 0;
     border-radius: 12px;
+    z-index: 50;
     background-color: var(--content-second);
     outline: 1px solid var(--content-third);
+    height: 50vh;
+    box-sizing: border-box;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
     ${({ $open, $anim }) => $open !== undefined ? css`
         display: ${$open || $anim ? 'block' : 'none'};
         animation: .5s ease-in-out ${$open ? appear : disappear};
     `: css`
         display: none;
     `}
+    @media (min-width: 600px) {
+        height: auto;
+    }
 `
 
 export const Character = styled.div`

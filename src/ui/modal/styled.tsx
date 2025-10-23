@@ -56,6 +56,9 @@ export const Content = styled.div<{ $open: boolean, $anim: boolean }>`
     outline: 1px solid var(--content-third);
     -ms-overflow-style: none;
     scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
     ${({ $open, $anim }) => ($open || $anim) ? css`
         display: flex;
         animation: 1s ease-in-out ${$anim ? contentDisappear : contentAppear};
@@ -65,9 +68,6 @@ export const Content = styled.div<{ $open: boolean, $anim: boolean }>`
         padding: 24px;
         top: 50%;
         transform: translate(-50%, -50%);
-    }
-    &::-webkit-scrollbar {
-        display: none;
     }
 `
 

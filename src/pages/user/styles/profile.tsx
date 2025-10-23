@@ -33,7 +33,7 @@ export const ProfileButton = styled.button`
     justify-content: space-between;
     align-items: center;
     padding: 12px;
-    z-index: 1;
+    z-index: 51;
     cursor: pointer;
     user-select: none;
     position: absolute;
