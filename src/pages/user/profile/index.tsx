@@ -1,8 +1,8 @@
 import { MinecraftSkinViewer } from "@wiicamp/react-minecraft-skin-viewer";
 import { Block, Container, Header, InfoPart, Nickname, NicknameText, Skin, SkinPart, SkinSkeleton, Status, StatusContent, StatusPinger, Subcontent, Till } from "./styles";
-import { CustomButton } from "@/ui/custom-button";
 import ChangeNick from "./components/change-nick";
 import { useEffect, useState } from "react";
+import ChangeSkin from "./components/chage-skin";
 
 export default function Profile() {
     // Ждём 250 мс перед показом скина для оптимизации сайдбара
@@ -31,18 +31,7 @@ export default function Profile() {
                             </Skin>
                         : <SkinSkeleton />
                 }
-                <CustomButton
-                    $padding={[8, 0]}
-                    $size={["48px", "auto"]}
-                    $rounded={8}
-                    $background="var(--content-third)"
-                    $weight={500}
-                    $animation="background"
-                    $animationvalue="var(--content-fourth)"
-                    $fullOn={600}
-                >
-                    Загрузить скин
-                </CustomButton>
+                <ChangeSkin />
             </SkinPart>
             <InfoPart>
                 <Block>

@@ -40,7 +40,7 @@ const contentDisappear = keyframes`
 
 export const Content = styled.div<{ $open: boolean, $anim: boolean }>`
     width: calc(100% - 20px);
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 10px;
     transform: translateX(-50%);
