@@ -2,11 +2,12 @@ import type { IModer } from "./moderators";
 
 export interface ISanction {
     id: string;
-    character: string;
+    targetPlayerNickname: string;
     reason: string;
     issued: string;
     duration: string;
-    expires: string;
+    expiresAt: string;
+    permanent: boolean;
     expired: boolean;
     moderator: IModer;
     sanctions: AccessSanction[];

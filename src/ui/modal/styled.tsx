@@ -38,7 +38,7 @@ const contentDisappear = keyframes`
     }
 `
 
-export const Content = styled.div<{ $open: boolean, $anim: boolean }>`
+export const Content = styled.div<{ $open: boolean, $anim: boolean, $overflow?: string, $contentBox?: boolean }>`
     width: calc(100% - 20px);
     position: fixed;
     left: 50%;
@@ -51,8 +51,8 @@ export const Content = styled.div<{ $open: boolean, $anim: boolean }>`
     background-color: var(--content-second);
     border-radius: 16px;
     max-height: calc(100vh - 20px);
-    box-sizing: border-box;
-    overflow-y: auto;
+    box-sizing: ${({ $contentBox }) => $contentBox === true ? 'content-box' : 'border-box'};
+    overflow-y: ${({ $overflow }) => $overflow !== undefined ? $overflow : 'auto' };
     outline: 1px solid var(--content-third);
     -ms-overflow-style: none;
     scrollbar-width: none;

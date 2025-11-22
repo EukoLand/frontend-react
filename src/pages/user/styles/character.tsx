@@ -45,9 +45,10 @@ export const CharactersList = styled.div<{ $open?: boolean, $anim: boolean }>`
     }
 `
 
-export const Character = styled.div`
-    width: calc(100% - 24px);
-    height: 40px;
+export const Character = styled.button`
+    width: 100%;
+    height: 64px;
+    text-align: left;
     display: flex;
     padding: 12px;
     gap: 12px;
@@ -81,7 +82,6 @@ export const CharacterType = styled.h5`
 export const CharacterAvatar = styled.img`
     width: 40px;
     height: 40px;
-    border-radius: 8px;
     object-fit: cover;
     user-select: none;
 `

@@ -46,7 +46,7 @@ export const Column = styled.div`
     }
 `
 
-export const ColumnTitle = styled.h6`
+export const ColumnTitle = styled.div`
     height: 28px;
     font-size: 16px;
 `

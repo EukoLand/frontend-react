@@ -1,4 +1,4 @@
-import type { IExpiredSanction, ISanction } from "@/types/sanctions"
+import type { IExpiredSanction, ISanction } from "@/lib/types/sanctions"
 import { Block, Header } from "./styles"
 import Sanction from "./components/sanction"
 import Punishment from "./components/punishment"

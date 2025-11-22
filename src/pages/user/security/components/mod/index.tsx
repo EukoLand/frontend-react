@@ -1,15 +1,17 @@
 import { FiDownload } from "react-icons/fi";
-import { Buttons, Container, DownloadContainer, Header, Paragraph, Support, SupportElement, SupportTitle, Text, Warning, WarningContent, WarningText, WarningTitle } from "./styled";
+import { Buttons, Container, DownloadContainer, Header, Paragraph, Support, SupportTitle, Text, Warning, WarningContent, WarningText, WarningTitle } from "./styled";
 import { CustomButton } from "@/ui/custom-button";
 import { useState } from "react";
 import Modal from "@/ui/modal";
 import { PiWarningBold } from "react-icons/pi";
-import { GrStatusGood } from "react-icons/gr";
+import Selector from "./components/selector";
+import getOwnMod from "@/lib/queries/security/getOwnMod";
 
 export default function Mod() {
     const [open, setOpen] = useState<boolean>(false);
     const [anim, setAnim] = useState<boolean>(false);
     const [block, setBlock] = useState<boolean>(false);
+    const [value, setValue] = useState<string | null>(null);
 
     const onOpen = () => {
         setBlock(true);
@@ -27,6 +29,10 @@ export default function Mod() {
         }, 950)
     }
     
+    const onChange = (type: string) => {
+        setValue(type);
+    }
+
     return(
         <Container>
             <DownloadContainer>
@@ -52,7 +58,7 @@ export default function Mod() {
                     Скачать мод
                 </CustomButton>
             </Text>
-            <Modal open={open} onClose={onClose} anim={anim} block={block} label="Скачать мод EukoAuth">
+            <Modal overflow="initial" open={open} onClose={onClose} anim={anim} block={block} label="Скачать мод EukoAuth">
                 <Warning>
                     <PiWarningBold stroke="oklch(79.5% 0.184 86.047)" fill="oklch(79.5% 0.184 86.047)" size={24} />
                     <WarningContent>
@@ -71,14 +77,7 @@ export default function Mod() {
                     <SupportTitle>
                         Мод будет работать на:
                     </SupportTitle>
-                    <SupportElement>
-                        <GrStatusGood 
-                            size={24} 
-                            stroke="var(--red)" 
-                            fill="var(--red)" 
-                        />
-                        Minecraft 1.21.7 (Forge/Fabric)
-                    </SupportElement>
+                    <Selector value={value} onChange={onChange} modelOpened={open} />
                 </Support>
                 <Buttons>
                     <CustomButton
@@ -95,6 +94,12 @@ export default function Mod() {
                         Отмена
                     </CustomButton>
                     <CustomButton
+                        disabled={value === null}
+                        onClick={() => {
+                            if(value === null) return;
+                            close();
+                            getOwnMod(value);
+                        }}
                         $rounded={8}
                         $animation="background"
                         $animationvalue="rgba(var(--red-rgb), .5)"

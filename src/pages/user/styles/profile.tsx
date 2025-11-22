@@ -6,6 +6,12 @@ export const Profile = styled.div`
     height: 72px;
 `
 
+export const ProfileLeft = styled.div`
+    display: flex;
+    gap: 8px;
+    align-items: center;
+`
+
 export const ProfileText = styled.div`
     display: flex;
     flex-direction: column;
@@ -51,7 +57,6 @@ export const ProfileButton = styled.button`
 export const Avatar = styled.img`
     width: 48px;
     height: 48px;
-    border-radius: 12px;
     user-select: none;
     object-fit: cover;
 `

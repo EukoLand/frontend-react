@@ -87,20 +87,22 @@ export default function SecuritySettings() {
                         </ModalButtons>
                     </Modal>
                 </Block>
-                <Block>
-                    <Text>
-                        <Title>
-                            Двухфакторная аутентификация
-                        </Title>
-                        <Paragraph>
-                            Подтверждение входа через Discord при каждом подключении
-                        </Paragraph>
-                    </Text>
-                    <Switch $on={twoAuth}>
-                        <SwitchThumb $on={twoAuth} />
-                        <SwitchBtn onClick={() => setTwoAuth(prev => !prev)}></SwitchBtn>
-                    </Switch>
-                </Block>
+                {/* 
+                    <Block>
+                        <Text>
+                            <Title>
+                                Двухфакторная аутентификация
+                            </Title>
+                            <Paragraph>
+                                Подтверждение входа через Discord при каждом подключении
+                            </Paragraph>
+                        </Text>
+                        <Switch $on={twoAuth}>
+                            <SwitchThumb $on={twoAuth} />
+                            <SwitchBtn onClick={() => setTwoAuth(prev => !prev)}></SwitchBtn>
+                        </Switch>
+                    </Block>
+                 */}
             </Blocks>
         </Container>
     )

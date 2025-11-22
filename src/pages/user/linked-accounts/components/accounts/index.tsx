@@ -1,42 +1,55 @@
-import { CustomButton } from "@/ui/custom-button";
 import { Block, Header } from "../../styles";
-import { Main, MainAccount, MainImage, MainOnline, MainText, MainTitle, MainUsername, OnlinePinger, OtherAccount, OtherAccounts, OtherImage, OtherOnline, Others, OthersTitle, OtherText, OtherUsername, Register, Top } from "./styled";
+import { Main, MainAccount, MainImage, MainText, MainTitle, MainUsername, OnlinePinger, OtherAccount, OtherAccounts, OtherImage, OtherOnline, Others, OthersTitle, OtherText, OtherUsername, Register, Top } from "./styled";
 import { MdVerified } from "react-icons/md";
-import type { IAccount } from "@/types/accounts";
+import { useQuery } from "@tanstack/react-query";
+import getMainAccount from "@/lib/queries/linkedAccounts/getMainAccount";
+import getHead from "@/lib/utils/head";
+import formatDate from "@/lib/utils/fotmatDate";
+import getOtherAccounts from "@/lib/queries/linkedAccounts/getOtherAccounts";
 
-const mainAccount: IAccount = {
-    id: '1',
-    image: 'https://mc-heads.net/avatar/Phemida/64',
-    isOnline: true,
-    registration: '15.01.2024',
-    username: 'Phemida',
-}
+// const mainAccount: IAccount = {
+//     id: '1',
+//     // image: 'https://mc-heads.net/avatar/Phemida/64',
+//     // isOnline: true,
+//     registration: '15.01.2024',
+//     username: 'Phemida',
+// }
 
-const otherAccounts: IAccount[] = [
-    {
-        id: '2',
-        image: 'https://mc-heads.net/avatar/Gravedigger/48',
-        isOnline: false,
-        registration: '51.52.2023',
-        username: 'Uzi82',
-    },
-    {
-        id: '3',
-        image: 'https://mc-heads.net/avatar/Gravedigger/48',
-        isOnline: true,
-        registration: '21.12.2023',
-        username: 'Gordon',
-    },
-]
+// const otherAccounts: IAccount[] = [
+//     {
+//         id: '2',
+//         // image: 'https://mc-heads.net/avatar/Gravedigger/48',
+//         // isOnline: false,
+//         registration: '51.52.2023',
+//         username: 'Uzi82',
+//     },
+//     {
+//         id: '3',
+//         // image: 'https://mc-heads.net/avatar/Gravedigger/48',
+//         // isOnline: true,
+//         // registration: '21.12.2023',
+//         username: 'Gordon',
+//     },
+// ]
 
 export default function Accounts() {
+    const { data: mainAccount } = useQuery({
+        queryKey: ['getMainAccount'],
+        queryFn: getMainAccount, 
+    });
+
+    const { data: otherAccounts } = useQuery({
+        queryKey: ['getOtherAccounts'],
+        queryFn: getOtherAccounts, 
+    });
+    
     return(
         <Block>
             <Top>
                 <Header>
                     Мои аккаунты
                 </Header>
-                <CustomButton
+                {/* <CustomButton
                     $padding={[4, 12]}
                     $rounded={8}
                     $background="var(--red)"
@@ -46,7 +59,7 @@ export default function Accounts() {
                     $hideOn={600}
                 >
                     Подать заявку на новый аккаунт
-                </CustomButton>
+                </CustomButton> */}
             </Top>
             <Main>
                 <MainTitle>
@@ -54,47 +67,49 @@ export default function Accounts() {
                     ОСНОВНОЙ АККАУНТ
                 </MainTitle>
                 <MainAccount>
-                    <MainImage src={mainAccount.image} />
+                    <MainImage src={getHead(mainAccount !== undefined ? mainAccount.nickname : "profile/steve.png")} onError={(e) => e.currentTarget.src = "/profile/steve.png"} />
                     <MainText>
                         <MainUsername>
-                            {mainAccount.username}
-                            <MainOnline $online={mainAccount.isOnline}>
+                            {mainAccount !== undefined ? mainAccount.nickname : "Неизвестный игрок"}
+                            {/* <MainOnline $online={mainAccount.isOnline}>
                                 { mainAccount.isOnline && <OnlinePinger/> }
                                 { mainAccount.isOnline ? 'Online' : 'Offline' }
-                            </MainOnline>
+                            </MainOnline> */}
                         </MainUsername>
                         <Register>
-                            Регистрация: {mainAccount.registration}
+                            Регистрация: {mainAccount !== undefined ? formatDate(mainAccount.createdAt) : "??.??.????"}
                         </Register>
                     </MainText>
                 </MainAccount>
             </Main>
-            <Others>
-                <OthersTitle>
-                    Дополнительные аккаунты ({otherAccounts.length})
-                </OthersTitle>
-                <OtherAccounts>
-                    {
-                        otherAccounts.map(el =>
-                            <OtherAccount key={el.id}>
-                                <OtherImage src={el.image} />
-                                <OtherText>
-                                    <OtherUsername>
-                                        {el.username}
-                                        <OtherOnline $online={el.isOnline}>
-                                            { el.isOnline && <OnlinePinger/> }
-                                            { el.isOnline ? 'Online' : 'Offline' }
-                                        </OtherOnline>
-                                    </OtherUsername>
-                                    <Register>
-                                        Регистрация: {el.registration}
-                                    </Register>
-                                </OtherText>
-                            </OtherAccount>
-                        )
-                    }
-                </OtherAccounts>
-            </Others>
+            {   otherAccounts !== undefined && otherAccounts.length > 0 &&
+                <Others>
+                    <OthersTitle>
+                        Дополнительные аккаунты ({otherAccounts.length})
+                    </OthersTitle>
+                    <OtherAccounts>
+                        {
+                            otherAccounts.map(el =>
+                                <OtherAccount key={el.id}>
+                                    <OtherImage src={getHead(el.nickname)} onError={(e) => e.currentTarget.src = "/profile/steve.png"} />
+                                    <OtherText>
+                                        <OtherUsername>
+                                            {el.nickname}
+                                            {/* <OtherOnline $online={el.isOnline}>
+                                                { el.isOnline && <OnlinePinger/> }
+                                                { el.isOnline ? 'Online' : 'Offline' }
+                                            </OtherOnline> */}
+                                        </OtherUsername>
+                                        <Register>
+                                            Регистрация: {formatDate(el.createdAt)}
+                                        </Register>
+                                    </OtherText>
+                                </OtherAccount>
+                            )
+                        }
+                    </OtherAccounts>
+                </Others>
+            }
         </Block>
     )
 }

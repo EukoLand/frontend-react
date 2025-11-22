@@ -1,4 +1,4 @@
-import type { AccessSanction } from "@/types/sanctions";
+import type { AccessSanction } from "@/lib/types/sanctions";
 import { Container, Description, Icon, Text, Title } from "./styles";
 import { MdBlock } from "react-icons/md";
 

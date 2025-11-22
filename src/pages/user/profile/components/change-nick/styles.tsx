@@ -48,9 +48,15 @@ export const Input = styled.input<{ $invalid: boolean; }>`
     }
 `
 
-export const InputValidation = styled.h6<{ $error: boolean }>`
+export const InputValidation = styled.h6<{ $error: boolean, $fetching: boolean }>`
     font-size: 14px;
-    color: ${({ $error }) => $error ? 'var(--red)' : 'var(--green)' };
+    min-height: 16px;
+    height: 16px;
+    transition-duration: 300ms;
+    opacity: ${({ $fetching }) => $fetching ? 0 : 1};
+    color: ${({ $error }) => $error  
+        ? 'var(--red)' : 'var(--green)' 
+    };
     font-weight: 400;
 `
 

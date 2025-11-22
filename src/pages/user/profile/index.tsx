@@ -1,12 +1,25 @@
 import { MinecraftSkinViewer } from "@wiicamp/react-minecraft-skin-viewer";
-import { Block, Container, Header, InfoPart, Nickname, NicknameText, Skin, SkinPart, SkinSkeleton, Status, StatusContent, StatusPinger, Subcontent, Till } from "./styles";
+import { 
+    Block, 
+    Container, 
+    Header, 
+    InfoPart, 
+    Nickname, 
+    NicknameText, 
+    Skin, 
+    SkinPart, 
+    SkinSkeleton, 
+    Subcontent 
+} from "./styles";
 import ChangeNick from "./components/change-nick";
 import { useEffect, useState } from "react";
 import ChangeSkin from "./components/chage-skin";
+import { useAccount } from "@/store/account";
 
 export default function Profile() {
     // Ждём 250 мс перед показом скина для оптимизации сайдбара
     const [skin, setSkin] = useState<boolean>(false);
+    const account = useAccount((store) => store.account);
 
     useEffect(() => {
         setTimeout(() => {
@@ -26,7 +39,7 @@ export default function Profile() {
                                     background="#323232"
                                     control
                                     walk
-                                    skin="https://minotar.net/skin/user"
+                                    skin={`https://minotar.net/skin/${ account !== null ? account.nickname : 'user' }`}
                                 />
                             </Skin>
                         : <SkinSkeleton />
@@ -40,7 +53,7 @@ export default function Profile() {
                     </Header>
                     <Nickname>
                         <NicknameText>
-                            Some nickname which is very loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+                            { account !== null ? account.nickname : 'Аккаунт не задан...' }
                         </NicknameText>
                         <ChangeNick />
                     </Nickname>
@@ -48,20 +61,22 @@ export default function Profile() {
                         Следующая смена доступна через 72 часа
                     </Subcontent>
                 </Block>
-                <Block>
-                    <Header>
-                        Статус проходки
-                    </Header>
-                    <Status>
-                        <StatusContent>
-                            <StatusPinger/>
-                            Активна
-                        </StatusContent>
-                        <Till>
-                            До 15.06.2025
-                        </Till>
-                    </Status>
-                </Block>
+                {/* 
+                    <Block>
+                        <Header>
+                            Статус проходки
+                        </Header>
+                        <Status>
+                            <StatusContent>
+                                <StatusPinger/>
+                                Активна
+                            </StatusContent>
+                            <Till>
+                                До 15.06.2025
+                            </Till>
+                        </Status>
+                    </Block> 
+                */}
             </InfoPart>
         </Container>
     )

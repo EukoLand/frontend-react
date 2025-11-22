@@ -2,47 +2,18 @@ import { Outlet, useLocation } from "react-router-dom";
 import { Container, CurrentLink, Links, MenuButton, MenuButtonLine, OutletContainer, OutletContent, OutletHeader, Sidebar, SideLink } from "./styles";
 import { Down } from "@icon-park/react";
 import { useEffect, useState, type ReactNode } from "react";
-import { Arrow, Avatar, Profile, ProfileButton, ProfileText, Role, Username } from "./styles/profile";
+import { Arrow, Avatar, Profile, ProfileButton, ProfileLeft, ProfileText, Role, Username } from "./styles/profile";
 import { Character, CharacterAvatar, CharacterName, CharactersList, CharacterText, CharacterType, LinkedAccounts } from "./styles/character";
 import { IoIosLink } from "react-icons/io";
 import { BsPerson } from "react-icons/bs";
 import { FaRegCreditCard } from "react-icons/fa6";
 import { GoShieldLock } from "react-icons/go";
 import { MdBlock } from "react-icons/md";
-
-interface Account {
-    skin: string;
-    username: string;
-    type: string;
-}
-
-const accounts: Account[] = [
-    {
-        skin: "/profile/steve.png",
-        username: "Steve",
-        type: "Игрок",
-    },
-    {
-        skin: "/profile/steve.png",
-        username: "Steve",
-        type: "Игрок",
-    },
-    {
-        skin: "/profile/steve.png",
-        username: "Steve",
-        type: "Игрок",
-    },
-    {
-        skin: "/profile/steve.png",
-        username: "Steve",
-        type: "Игрок",
-    },
-    {
-        skin: "/profile/steve.png",
-        username: "Steve",
-        type: "Игрок",
-    },
-]
+import { useQuery } from "@tanstack/react-query";
+import { useAccount } from "@/store/account";
+import getHead from "@/lib/utils/head";
+import getLinkedAccounts from "@/lib/queries/getLinkedAccounts";
+import type { LinkedAccount } from "@/lib/types/accounts";
 
 interface Route {
     label: string;
@@ -88,10 +59,15 @@ const ignoredHeaders: IgnoredRoute[] = [
 ]
 
 export default function UserLayout() {
-    const [account, setAccount] = useState<boolean>();
+    const [accountState, setAccountState] = useState<boolean>();
     const [accountAnim, setAccountAnim] = useState<boolean>(false);
     const [opened, setOpened] = useState<boolean>(false);
     const [closing, setClosing] = useState<boolean>(false);
+    const { account, setAccount } = useAccount();
+    const { data } = useQuery({
+        queryKey: ["idenrify"],
+        queryFn: getLinkedAccounts,
+    })
     const location = useLocation();
 
     useEffect(() => {
@@ -102,7 +78,7 @@ export default function UserLayout() {
     const profileHandler = () => {
         if(accountAnim) return;
         setAccountAnim(true);
-        setAccount(prev => prev === undefined ? true : !prev)
+        setAccountState(prev => prev === undefined ? true : !prev)
         setTimeout(() => {
             setAccountAnim(false);
         }, 450)
@@ -114,6 +90,10 @@ export default function UserLayout() {
             setOpened(false)
             setClosing(false)
         }, 200)
+    }
+
+    const setAnotherAccount = (newAccount: LinkedAccount) => {
+        setAccount(newAccount);
     }
 
     return(
@@ -128,30 +108,42 @@ export default function UserLayout() {
             <Sidebar $open={opened}>
                 <Profile>
                     <ProfileButton disabled={accountAnim} onClick={profileHandler}>
-                        <Avatar src="/profile/steve.png" />
-                        <ProfileText>
-                            <Username>
-                                Не выбран
-                            </Username>
-                            <Role>
-                                Игрок
-                            </Role>
-                        </ProfileText>
-                        <Arrow $open={account === true}>
+                        <ProfileLeft>
+                            <Avatar src={
+                                getHead(
+                                    (account !== null && data !== undefined && data.filter(el => el.id === account.id).length === 1) 
+                                        ? data.filter(el => el.id === account.id)[0].nickname
+                                        :  "profile/steve.png"
+                                )
+                            } onError={(e) => e.currentTarget.src = "/profile/steve.png"} />
+                            <ProfileText>
+                                <Username>
+                                    { 
+                                        (account !== null && data !== undefined && data.filter(el => el.id === account.id).length === 1)
+                                            ?   data.filter(el => el.id === account.id)[0].nickname
+                                            :  "Не выбран"
+                                    }
+                                </Username>
+                                <Role>
+                                    Игрок
+                                </Role>
+                            </ProfileText>
+                        </ProfileLeft>
+                        <Arrow $open={accountState === true}>
                             <Down fill="rgba(255, 255, 255, .5)" size={20} strokeWidth={4} />
                         </Arrow>
                     </ProfileButton>
-                    <CharactersList $anim={accountAnim} $open={account}>
+                    <CharactersList $anim={accountAnim} $open={accountState}>
                         {
-                            accounts.map((el, index) => 
-                                <Character key={index}>
-                                    <CharacterAvatar src={el.skin} />
+                            data !== undefined && data.map((el, index) => 
+                                <Character key={index} onClick={() => setAnotherAccount(el)}>
+                                    <CharacterAvatar src={getHead(el.nickname)} onError={(e) => e.currentTarget.src = "/profile/steve.png"} />
                                     <CharacterText>
                                         <CharacterName>
-                                            {el.username}
+                                            {el.nickname}
                                         </CharacterName>
                                         <CharacterType>
-                                            {el.type}
+                                            Игрок
                                         </CharacterType>
                                     </CharacterText>
                                 </Character>

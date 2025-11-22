@@ -8,9 +8,11 @@ interface Props {
     onClose: () => void;
     label?: string;
     block: boolean;
+    overflow?: string;
+    contentBox?: boolean;
 }
 
-export default function Modal({ open, anim, onClose, children, label, block }: Props) {
+export default function Modal({ open, anim, onClose, children, label, block, overflow, contentBox }: Props) {
     useEffect(() => {
         if(open) document.body.style.overflow = "hidden";
         else if (!anim) document.body.style.overflow = "auto"
@@ -22,7 +24,7 @@ export default function Modal({ open, anim, onClose, children, label, block }: P
             <BgCloser onClick={onClose}>
                 Вы не должны этого видеть
             </BgCloser>
-            <Content $open={open} $anim={anim}>
+            <Content $open={open} $anim={anim} $overflow={overflow} $contentBox={contentBox}>
                 {
                     label !== undefined && <Label>{label}</Label>
                 }

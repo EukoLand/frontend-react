@@ -1,4 +1,4 @@
-import type { IExpiredSanction } from "@/types/sanctions";
+import type { IExpiredSanction } from "@/lib/types/sanctions";
 import { 
     Bar, 
     Bars, 

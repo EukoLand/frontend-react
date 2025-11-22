@@ -3,28 +3,67 @@ import { useState } from "react"
 import { Blocks, Buttons, Form, Input, InputContainer, InputLabel, InputValidation, Warning } from "./styles";
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import Modal from "@/ui/modal";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import validateNickname from "@/lib/queries/profile/validateNickname";
+import { useDebouncedCallback } from 'use-debounce';
+import changeNickname from "@/lib/queries/profile/changeNickname";
+import { toast } from "react-toastify";
+import { useAccount } from "@/store/account";
 
-interface Form {
-    username: string;
+interface IForm {
+    nickname: string;
 }
 
 export default function ChangeNick() {
     const [open, setOpen] = useState<boolean>(false);
     const [anim, setAnim] = useState<boolean>(false);
     const [block, setBlock] = useState<boolean>(false);
-    const { register, handleSubmit, formState: { errors }, watch, reset } = useForm<Form>({
+    const [input, setInput] = useState<boolean>(false);
+    const account = useAccount((store) => store.account);
+    
+    const { register, handleSubmit, formState: { errors, isValid }, watch, reset } = useForm<IForm>({
         mode: 'onChange',
         reValidateMode: 'onBlur',
     })
 
-    const value = watch('username', '');
+    const value = watch('nickname', '');
 
+    // Функция запроса валидации
+    const { data, isFetching, isError, refetch } = useQuery({
+        queryKey: ['validateKey'],
+        queryFn: () => validateNickname(value),
+        enabled: false,
+    }); 
+
+    // Функция запроса на смену ника
+    const { data: result, isPending, mutateAsync } = useMutation({
+        mutationKey: ['changeNick'],
+        mutationFn: ({ id, nickname }: { id: string, nickname: string }) => changeNickname({ id, nickname }),
+    });
+    
+    // Функция запроса на проверку валидации с задержкой для ввода
+    const checkNickname = useDebouncedCallback(() => {
+        if (!isValid) return;
+        refetch();
+        setInput(false);
+    }, 500);
+    
+    // Функция для получения текста валидации
+    const validationFn = useDebouncedCallback(() => {
+        if(errors.nickname?.message !== undefined) return errors.nickname.message;
+        if(isFetching) return "Проверяем";
+        if(isError) return "Ошибка";
+        return data ? "✗ Никнейм недоступен" : "✓ Никнейм доступен";
+    }, 500);
+
+    // Открытие модалки
     const onOpen = () => {
         setBlock(true);
         setOpen(true);
         setTimeout(() => setBlock(false), 1100)
     }
 
+    // Закрытие модалки
     const onClose = () => {
         setBlock(true)
         setAnim(true)
@@ -36,9 +75,15 @@ export default function ChangeNick() {
         }, 950)
     }
 
-
-    const onSubmit: SubmitHandler<Form> = (data) => {
-        console.log(data);
+    // Отправляем новый ник
+    const onSubmit: SubmitHandler<IForm> = async (data) => {
+        if(account === null) {
+            toast.error("Аккаунт не выбран");
+            return;
+        }
+        const response = await mutateAsync({ id: account.id, ...data });
+        if(response) toast.success("Никнейм успешно сменён!");
+        else toast.error("Ошибка смены никнейма");
     }
 
     return(
@@ -70,7 +115,11 @@ export default function ChangeNick() {
                                 Новый никнейм
                             </InputLabel>
                             <Input 
-                                {...register('username', {
+                                {...register('nickname', {
+                                    onChange: () => {
+                                        setInput(true);
+                                        checkNickname();
+                                    },
                                     required: {
                                         value: true,
                                         message: 'Необходимо ввести новый никнейм'
@@ -89,18 +138,13 @@ export default function ChangeNick() {
                                     }
                                 })}
                                 placeholder="Введите новый никнейм"
-                                $invalid={errors.username !== undefined} 
+                                $invalid={errors.nickname !== undefined} 
                             />
-                            {
-                                value !== '' && 
-                                    <InputValidation $error={errors.username !== undefined}>
-                                        {
-                                            errors.username !== undefined
-                                                ? errors.username.message
-                                                : '✓ Никнейм доступен'
-                                        }
-                                    </InputValidation>
-                            }
+                            <InputValidation $fetching={value === '' || isFetching || input} $error={errors.nickname !== undefined || isError || data === true}>
+                                {
+                                    validationFn()
+                                }
+                            </InputValidation>
                         </InputContainer>
                         <Warning>
                             <span>Внимание:</span> Следующее изменение будет доступно через 72 часа.
@@ -121,7 +165,7 @@ export default function ChangeNick() {
                             Отмена
                         </CustomButton>
                         <CustomButton
-                            disabled={value === '' || errors.username !== undefined}
+                            disabled={value === '' || errors.nickname !== undefined || isFetching || input}
                             $background="var(--red)"
                             $animation="background"
                             $animationvalue="rgba(var(--red-rgb), .7)"

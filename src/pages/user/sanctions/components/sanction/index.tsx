@@ -1,4 +1,4 @@
-import type { ISanction } from "@/types/sanctions";
+import type { ISanction } from "@/lib/types/sanctions";
 import { AccessSanctions, AccessSanctionsTitle, ActiveBar, Container, Content, Data, DataElement, DataValue, ExpiredBar, Header } from "./styles";
 import Moderator from "../moderator";
 import AccessSanction from "../access-sanction";

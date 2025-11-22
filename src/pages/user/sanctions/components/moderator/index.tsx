@@ -1,4 +1,4 @@
-import type { IModer } from "@/types/moderators";
+import type { IModer } from "@/lib/types/moderators";
 import { Container, Nickname, Role, Skin, Text } from "./styles";
 
 export default function Moderator({ image, role, username }: IModer) {

@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { CustomButton } from "../custom-button";
 import Logo from "../logo";
 import { Buttons, Container, Login, Menu, MenuButton, MenuButtonLine, MenuLine, MenuLink, MenuLogin } from "./styles";
+import { useNavigate } from "react-router-dom";
+import { baseURL } from "@/main";
 
 export default function Header() {
+    const navigate = useNavigate();
     const [scroll, setScroll] = useState<number>(0);
     const [opened, setOpened] = useState<boolean>(false);
     const [closing, setClosing] = useState<boolean>(false);
@@ -24,6 +27,22 @@ export default function Header() {
             setClosing(false)
         }, 200)
     }
+
+    const onLogin = () => {
+        const authWindow = window.open(
+            baseURL + "auth/discord",
+            "auth",
+            "width=500,height=600,resizable=no,status=no,scrollbars=no,top=120,left=40",
+        );
+        if (authWindow === null) return;
+        const timer = setInterval(() => {
+            if (authWindow.closed) {
+                clearInterval(timer);
+                navigate("/user/profile");
+            }
+        }, 1000);
+    }
+
     return(
         <Container $start={scroll < 100}>
             <Logo />
@@ -45,7 +64,7 @@ export default function Header() {
                     Вики
                 </CustomButton>
             </Buttons>
-            <Login>Войти</Login>
+            <Login onClick={onLogin}>Войти</Login>
             <MenuButton 
                 $opened={opened} 
                 onClick={() => opened ? hide() : setOpened(true)}
