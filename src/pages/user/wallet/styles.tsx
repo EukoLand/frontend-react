@@ -113,6 +113,7 @@ export const Balance = styled.div`
     display: flex;
     flex-direction: column;
     gap: 4px;
+    width: 70%;
     @media (min-width: 600px) {
         gap: 8px;
     }
@@ -128,17 +129,31 @@ export const BalanceTitle = styled.h3`
 `
 
 export const BalanceValue = styled.h1`
+    width: 100%;
     font-weight: 700;
     font-size: 40px;
-    & > span {
-        font-size: 24px;
-        opacity: .5;
-        font-weight: 500;
-    }
+    display: flex;
+    align-items: center;
+    gap: 4px;
     @media (min-width: 600px) {
         font-size: 48px;
         & > span {
             font-size: 24px;
         }
     }
+`
+
+export const BalanceDigits = styled.div`
+    display: inline-block;
+    max-width: 70%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+`
+
+export const BalanceSubtitle = styled.p`
+    transform: translateY(4px);
+    font-size: 24px;
+    opacity: .5;
+    font-weight: 500;
 `

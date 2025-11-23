@@ -77,6 +77,10 @@ export const Line = styled.div`
     font-size: 10px;
     font-weight: 400;
     width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 100%;
+    text-overflow: ellipsis;
     & > span {
         opacity: .5;
     }
@@ -101,4 +105,40 @@ export const ModalButtons = styled.div`
     @media (min-width: 600px) {
         flex-direction: row;
     }
+`
+
+export const SessionSkeleton = styled.div`
+    height: 80px;
+    width: 100%;
+    border-radius: 8px;
+    outline: 1px solid var(--content-fourth);
+    background-color: var(--content-third);
+`
+
+export const NoTokensContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 320px;
+    background-color: var(--content-third);
+    outline: 1px solid var(--content-fourth);
+    border-radius: 8px;
+`
+
+export const NoTokens = styled.h2`
+    font-size: 38px;
+    font-weight: 600;
+    color: var(--red);
+    text-align: center;
+`
+
+export const NoTokensUndertitle = styled.p`
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--red);
+    opacity: .5;
+    text-align: center;
 `

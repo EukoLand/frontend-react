@@ -5,13 +5,15 @@ import { useState } from "react";
 import Modal from "@/ui/modal";
 import { PiWarningBold } from "react-icons/pi";
 import Selector from "./components/selector";
-import getOwnMod from "@/lib/queries/security/getOwnMod";
+import { baseURL } from "@/main";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Mod() {
     const [open, setOpen] = useState<boolean>(false);
     const [anim, setAnim] = useState<boolean>(false);
     const [block, setBlock] = useState<boolean>(false);
     const [value, setValue] = useState<string | null>(null);
+    const client = useQueryClient();
 
     const onOpen = () => {
         setBlock(true);
@@ -98,7 +100,14 @@ export default function Mod() {
                         onClick={() => {
                             if(value === null) return;
                             close();
-                            getOwnMod(value);
+                            onClose();
+                            window.open(baseURL + `mc/mod/${value}/generate`, '_blank');
+                            setTimeout(() => {
+                                client.invalidateQueries({
+                                    queryKey: ['activeKeys'],
+                                    refetchType: 'all',
+                                });
+                            }, 250);
                         }}
                         $rounded={8}
                         $animation="background"

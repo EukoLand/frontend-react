@@ -1,9 +1,28 @@
 import { CustomButton } from "@/ui/custom-button";
 import { Block, Blocks, Container, Header, ModalButtons, ModalText, Paragraph, Switch, SwitchBtn, SwitchThumb, Text, Title } from "./styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "@/ui/modal";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import blockJoining from "@/lib/queries/security/blockJoining";
+import getBlockStatus from "@/lib/queries/security/getBlockStatus";
 
 export default function SecuritySettings() {
+    const client = useQueryClient();
+    const { data } = useQuery({
+        queryKey: ['blockStatus'],
+        queryFn: getBlockStatus,
+        placeholderData: keepPreviousData,
+    })
+    const { mutateAsync } = useMutation({
+        mutationKey: ['blockMut'],
+        mutationFn: blockJoining,
+        onSettled: () => {
+            client.invalidateQueries({
+                queryKey: ['blockStatus']
+            });
+        },
+    });
+    useEffect(() => console.log(data), [data])
     const [twoAuth, setTwoAuth] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
     const [anim, setAnim] = useState<boolean>(false);
@@ -25,6 +44,13 @@ export default function SecuritySettings() {
         }, 950)
     }
     
+    const blockFn = async () => {
+        onClose();
+        setTimeout(() => {
+            mutateAsync();
+        }, 1000);
+    }
+
     return(
         <Container>
             <Header>
@@ -50,11 +76,21 @@ export default function SecuritySettings() {
                         $font={16}
                         $padding={[8, 16]}
                     >
-                        Заблокировать
+                        { data ? "Разблокировать" : "Заблокировать" }
                     </CustomButton>
-                    <Modal open={open} onClose={onClose} anim={anim} block={block} label="Заблокировать доступ?">
+                    <Modal 
+                        open={open} 
+                        onClose={onClose} 
+                        anim={anim} 
+                        block={block} 
+                        label={data ? "Разблокировать доступ?" :  "Заблокировать доступ?"}
+                    >
                         <ModalText>
-                            Это временно заблокирует вход на сервер для всех ваших ключей. Вы не сможете подключиться до разблокировки. 
+                            { 
+                                data 
+                                ? "После разблокировки вы снова сможете заходить на сервер с активными ключами." 
+                                :  "Это временно заблокирует вход на сервер для всех ваших ключей. Вы не сможете подключиться до разблокировки."
+                            }
                         </ModalText>
                         <ModalButtons>
                             <CustomButton
@@ -72,17 +108,18 @@ export default function SecuritySettings() {
                                 Отмена
                             </CustomButton>
                             <CustomButton
+                                onClick={blockFn}
                                 $rounded={8}
                                 $animation="background"
-                                $animationvalue="rgba(var(--red-rgb), .5)"
-                                $background="var(--red)"
+                                $animationvalue={`${data ? "var(--content-third)" : "rgba(var(--red-rgb), .5)"}`}
+                                $background={data ? "var(--content-fourth)" : "var(--red)"}
                                 $font={16}
                                 $weight={500}
                                 $fullOn={800}
                                 $size={["calc(50% - 4px)", "auto"]}
                                 $padding={[12, 16]}
                             >
-                                Заблокировать
+                                { data ? "Разблокировать" : "Заблокировать" }
                             </CustomButton>
                         </ModalButtons>
                     </Modal>
