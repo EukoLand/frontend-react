@@ -91,7 +91,8 @@ export const Links = styled.div`
 
 export const SideLink = styled(Link)`
     width: calc(100% - 32px);
-    padding: 10px 16px;
+    padding: 0 16px;
+    height: 42px;
     display: flex;
     gap: 12px;
     align-items: center;
@@ -157,8 +158,8 @@ export const CurrentLink = styled.div<{ $index: number }>`
     position: absolute;
     transition-duration: 200ms;
     width: 100%;
-    height: 41px;
-    top: ${({ $index }) => `${$index*45}px` };
+    height: 42px;
+    top: ${({ $index }) => `${$index*46}px` };
     z-index: -1;
     left: 0;
 `

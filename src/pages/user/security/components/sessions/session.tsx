@@ -3,7 +3,7 @@ import { Content, Data, Delete, Line, ModalButtons, ModalText, SessionContainer,
 import Modal from "@/ui/modal";
 import { useState } from "react";
 import { CustomButton } from "@/ui/custom-button";
-import formatDate from "@/lib/utils/fotmatDate";
+import formatDate, { formatDateAndTime, formatDateAndTimeAndSeconds } from "@/lib/utils/fotmatDate";
 import type { ISession } from "@/lib/types/security";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import deleteToken from "@/lib/queries/security/deleteToken";
@@ -66,10 +66,10 @@ export default function Session(
                 </Title>
                 <Data>
                     <Line>
-                        <span>Создан:</span> {formatDate(createdAt)}
+                        <span>Создан:</span> {formatDateAndTime(createdAt)}
                     </Line>
                     <Line>
-                        <span>Последнее использование:</span> {lastLoginAt !== null ? formatDate(lastLoginAt) : 'никогда'}
+                        <span>Последнее использование:</span> {lastLoginAt !== null ? formatDateAndTimeAndSeconds(lastLoginAt) : 'никогда'}
                     </Line>
                     <Line>
                         <span>Устройство:</span> {system} ({host})

@@ -53,7 +53,7 @@ export default function ChangeNick() {
         if(errors.nickname?.message !== undefined) return errors.nickname.message;
         if(isFetching) return "Проверяем";
         if(isError) return "Ошибка";
-        return data ? "✗ Никнейм недоступен" : "✓ Никнейм доступен";
+        return data ? "✗ Никнейм недоступен" : "✓ Никнейм доступен"; 
     }, 500);
 
     // Открытие модалки

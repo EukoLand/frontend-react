@@ -15,11 +15,19 @@ import ChangeNick from "./components/change-nick";
 import { useEffect, useState } from "react";
 import ChangeSkin from "./components/chage-skin";
 import { useAccount } from "@/store/account";
+import { baseURL } from "@/main";
+import { useQuery } from "@tanstack/react-query";
+import getLinkedAccounts from "@/lib/queries/getLinkedAccounts";
+import count72hours from "@/lib/utils/count72hours";
 
 export default function Profile() {
     // Ждём 250 мс перед показом скина для оптимизации сайдбара
     const [skin, setSkin] = useState<boolean>(false);
     const account = useAccount((store) => store.account);
+    const { data } = useQuery({
+        queryKey: ['idenrify'],
+        queryFn: getLinkedAccounts,
+    });
 
     useEffect(() => {
         setTimeout(() => {
@@ -39,7 +47,7 @@ export default function Profile() {
                                     background="#323232"
                                     control
                                     walk
-                                    skin={`https://minotar.net/skin/${ account !== null ? account.nickname : 'user' }`}
+                                    skin={baseURL + `media/view/${account !== null ? account.nickname : 'user' }`}
                                 />
                             </Skin>
                         : <SkinSkeleton />
@@ -58,7 +66,14 @@ export default function Profile() {
                         <ChangeNick />
                     </Nickname>
                     <Subcontent>
-                        Следующая смена доступна через 72 часа
+                        { 
+                            data !== undefined && 
+                            account !== null && 
+                            count72hours(
+                                data.filter(el => el.id === account.id)[0]
+                                                    .lastNicknameChangeAt
+                            ) 
+                        }
                     </Subcontent>
                 </Block>
                 {/* 

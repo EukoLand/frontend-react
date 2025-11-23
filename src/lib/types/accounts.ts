@@ -11,4 +11,5 @@ export interface LinkedAccount {
     id: string;
     nickname: string;
     createdAt: string;
+    lastNicknameChangeAt: Date | null;
 }
