@@ -10,6 +10,6 @@ export interface IAccount {
 export interface LinkedAccount {
     id: string;
     nickname: string;
-    createdAt: string;
+    createdAt: Date;
     lastNicknameChangeAt: Date | null;
 }
