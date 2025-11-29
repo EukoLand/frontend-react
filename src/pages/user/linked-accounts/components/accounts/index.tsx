@@ -82,7 +82,7 @@ export default function Accounts() {
                     </MainText>
                 </MainAccount>
             </Main>
-            {   otherAccounts !== undefined && otherAccounts.length > 0 &&
+            {   otherAccounts !== undefined && otherAccounts.filter(el => el.id !== mainAccount?.id).length > 0 &&
                 <Others>
                     <OthersTitle>
                         Дополнительные аккаунты ({otherAccounts.length})
