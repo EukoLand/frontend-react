@@ -142,3 +142,24 @@ export const NoTokensUndertitle = styled.p`
     opacity: .5;
     text-align: center;
 `
+
+export const PagesContainer = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    align-items: center;
+    height: 32px;
+`
+
+export const PageButton = styled.button<{ $current:boolean }>`
+    height: 100%;
+    padding: 0px 10px;
+    border-radius: 8px;
+    outline: 1px solid var(--content-fourth);
+    text-align: center;
+    font-size: 20px;
+    transition-duration: 200ms;
+    background-color: ${({ $current }) => $current ? "var(--red)" : "var(--content-third)" };
+    cursor: ${({ $current }) => $current ? "not-allowed" : "pointer"}
+`

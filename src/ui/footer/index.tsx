@@ -1,6 +1,13 @@
 import { FaDiscord, FaTelegram } from "react-icons/fa";
 import { Column, ColumnLink, ColumnList, ColumnText, ColumnTitle, Container, Content, Line, Links, Logo, SubContent, SubLogo, SubText } from "./styled";
 
+const links: {[keyof: string]: string} = {
+    "https://eukoland.gitbook.io/docs/dokumenty/polzovatelskoe-soglashenie": "Пользовательское соглашение",
+    "https://eukoland.gitbook.io/docs/dokumenty/politika-konfidencialnosti": "Политика конфиденциальности",
+    "https://eukoland.gitbook.io/docs/dokumenty/politika-vozvrata-sredstv": "Политика возврата средств",
+    "https://eukoland.gitbook.io/docs/dokumenty/usloviya-oplaty": "Условия оплаты",
+}
+
 export default function Footer() {
     return(
         <Container>
@@ -20,25 +27,24 @@ export default function Footer() {
                     <Column>
                         <ColumnTitle>Документы</ColumnTitle>
                         <ColumnList>
-                            <ColumnLink to="/terms">Пользовательское соглашение</ColumnLink>
-                            <ColumnLink to="/privacy">Политика конфиденциальности</ColumnLink>
-                            <ColumnLink to="/refund">Политика возврата средств</ColumnLink>
-                            <ColumnLink to="/payment">Условия оплаты</ColumnLink>
+                            {
+                                Object.keys(links).map((el, index) => <ColumnLink key={index} href={el} target="_blank">{links[el]}</ColumnLink>)
+                            }
                         </ColumnList>
                     </Column>
                     <Column>
                         <ColumnTitle>Контакты</ColumnTitle>
                         <ColumnList>
-                            <ColumnLink $social to="https://discord.com/invite/tQaSUCWT83">
+                            <ColumnLink $social href="https://discord.com/invite/tQaSUCWT83" target="_blank">
                                 <FaDiscord style={{ transform: `translateY(2px)`, stroke: 'inherit' }} />
                                 Discord сервер
                             </ColumnLink>
-                            <ColumnLink $social to="https://t.me/eukoland">
+                            <ColumnLink $social href="https://t.me/eukoland" target="_blank">
                                 <FaTelegram style={{ transform: `translateY(2px)`, stroke: 'inherit' }} />
                                 Telegram канал
                             </ColumnLink>
                             <ColumnText>
-                                Email: support@euko.land
+                                Email: euko.land@gmail.com
                             </ColumnText>
                         </ColumnList>
                     </Column>

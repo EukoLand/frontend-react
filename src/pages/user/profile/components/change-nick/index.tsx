@@ -18,7 +18,6 @@ export default function ChangeNick() {
     const [open, setOpen] = useState<boolean>(false);
     const [anim, setAnim] = useState<boolean>(false);
     const [block, setBlock] = useState<boolean>(false);
-    const [input, setInput] = useState<boolean>(false);
     const account = useAccount((store) => store.account);
     
     const { register, handleSubmit, formState: { errors, isValid }, watch, reset } = useForm<IForm>({
@@ -45,16 +44,14 @@ export default function ChangeNick() {
     const checkNickname = useDebouncedCallback(() => {
         if (!isValid) return;
         refetch();
-        setInput(false);
     }, 500);
     
     // Функция для получения текста валидации
-    const validationFn = useDebouncedCallback(() => {
-        if(errors.nickname?.message !== undefined) return errors.nickname.message;
-        if(isFetching) return "Проверяем";
-        if(isError) return "Ошибка";
+    const validationFn = () => {
+        if(errors.nickname !== undefined) return errors.nickname.message;
+        if(isError) return "Ошибка запроса";
         return data ? "✗ Никнейм недоступен" : "✓ Никнейм доступен"; 
-    }, 500);
+    }
 
     // Открытие модалки
     const onOpen = () => {
@@ -115,9 +112,9 @@ export default function ChangeNick() {
                                 Новый никнейм
                             </InputLabel>
                             <Input 
+                                autoComplete="off"
                                 {...register('nickname', {
                                     onChange: () => {
-                                        setInput(true);
                                         checkNickname();
                                     },
                                     required: {
@@ -140,7 +137,7 @@ export default function ChangeNick() {
                                 placeholder="Введите новый никнейм"
                                 $invalid={errors.nickname !== undefined} 
                             />
-                            <InputValidation $fetching={value === '' || isFetching || input} $error={errors.nickname !== undefined || isError || data === true}>
+                            <InputValidation $fetching={value === '' || isFetching} $error={errors.nickname !== undefined || isError || data === true}>
                                 {
                                     validationFn()
                                 }
@@ -165,7 +162,7 @@ export default function ChangeNick() {
                             Отмена
                         </CustomButton>
                         <CustomButton
-                            disabled={value === '' || errors.nickname !== undefined || isFetching || input}
+                            disabled={value === '' || errors.nickname !== undefined || isFetching}
                             $background="var(--red)"
                             $animation="background"
                             $animationvalue="rgba(var(--red-rgb), .7)"

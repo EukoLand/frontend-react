@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CustomButton } from "../custom-button";
+import { CustomAnchor, CustomButton } from "../custom-button";
 import Logo from "../logo";
 import { Buttons, Container, Login, Menu, MenuButton, MenuButtonLine, MenuLine, MenuLink, MenuLogin } from "./styles";
 import { useNavigate } from "react-router-dom";
@@ -54,7 +54,8 @@ export default function Header() {
                 >
                     Главная
                 </CustomButton>
-                <CustomButton
+                <CustomAnchor
+                    href="https://eukoland.gitbook.io/docs"
                     $padding={[8, 20]}
                     $font={16}
                     $background="transparent"
@@ -62,7 +63,7 @@ export default function Header() {
                     $animationvalue="var(--content)"
                 >
                     Вики
-                </CustomButton>
+                </CustomAnchor>
             </Buttons>
             <Login onClick={onLogin}>Войти</Login>
             <MenuButton 

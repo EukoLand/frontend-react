@@ -130,6 +130,7 @@ export const Subtitle = styled.h2`
 export const Image = styled.img`
     object-fit: contain;
     display: none;
+    user-select: none;
     @media (min-width: 600px) {
         width: 50%;
         display: block;

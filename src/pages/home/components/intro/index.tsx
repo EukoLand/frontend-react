@@ -24,6 +24,7 @@ export default function Intro() {
                 </Description>
                 <Buttons>
                     <CustomAnchor 
+                        href="#start"
                         $padding={[16, 32]}
                         $font={18} 
                         $weight={600} 

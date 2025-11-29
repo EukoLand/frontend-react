@@ -14,7 +14,7 @@ export default function Start() {
     }
 
     return(
-        <Container>
+        <Container id="start">
             <Content>
                 <Titles>
                     <Title>

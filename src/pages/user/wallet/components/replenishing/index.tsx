@@ -232,7 +232,7 @@ export default function Replenishing() {
                         $rounded={8}
                         $font={18}
                     >
-                        Изменить
+                        Пополнить
                     </CustomButton>
                 </Buttons>
             </Modal>

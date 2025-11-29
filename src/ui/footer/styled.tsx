@@ -57,7 +57,7 @@ export const ColumnList = styled.div`
     gap: 8px;
 `
 
-export const ColumnLink = styled(Link)<{ $social?: boolean }>`
+export const ColumnLink = styled.a<{ $social?: boolean }>`
     font-size: 16px;
     display: flex;
     gap: 8px;
