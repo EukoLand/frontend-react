@@ -89,7 +89,7 @@ export default function Accounts() {
                     </OthersTitle>
                     <OtherAccounts>
                         {
-                            otherAccounts.map(el =>
+                            otherAccounts.filter(el => el.id !== mainAccount?.id).map(el =>
                                 <OtherAccount key={el.id}>
                                     <OtherImage src={getHead(el.nickname)} onError={(e) => e.currentTarget.src = "/profile/steve.png"} />
                                     <OtherText>
