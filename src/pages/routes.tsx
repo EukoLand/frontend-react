@@ -6,11 +6,16 @@ import Wallet from "./user/wallet";
 import Security from "./user/security";
 import Sanctions from "./user/sanctions";
 import LinkedAccounts from "./user/linked-accounts";
+import Callback from "./discord";
 
 export const router = createBrowserRouter([
     {
         path: '/',
         Component: HomePage
+    },
+    {
+        path: "/discord/callback",
+        Component: Callback
     },
     {
         path: '/user',

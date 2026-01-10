@@ -36,10 +36,13 @@ export default function Header() {
         );
         if (authWindow === null) return;
         const timer = setInterval(() => {
-            if (authWindow.closed) {
-                clearInterval(timer);
-                navigate("/user/profile");
-            }
+            try {
+                if (authWindow.location.href) {
+                    clearInterval(timer);
+                    authWindow.close();
+                    navigate("/user/profile");
+                }
+            } catch {}
         }, 1000);
     }
 
