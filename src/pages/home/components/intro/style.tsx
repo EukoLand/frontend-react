@@ -1,13 +1,18 @@
+import { CustomAnchor } from "@/ui/custom-button";
 import styled from "styled-components";
 
 export const Container = styled.div`
     width: 100%;
-    height: 100vh;
+    padding-top: 74px;
+    height: calc(100vh - 74px);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     flex-direction: column;
+    @media (min-width: 700px) {
+        height: 100vh;
+    }
 `
 
 export const Content = styled.div`
@@ -77,4 +82,10 @@ export const Buttons = styled.div`
     align-items: center;
     flex-wrap: wrap;
     gap: 16px;
+`
+
+export const Button = styled(CustomAnchor)`
+    @media (max-width: 700px) {
+        padding: 8px 16px !important;
+    }
 `

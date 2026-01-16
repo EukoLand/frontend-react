@@ -12,15 +12,20 @@ export const Container = styled.header<{ $start: boolean }>`
     transition-duration: 200ms;
     padding: 16px;
     ${( props ) => props.$start !== true ?
-    css`border-bottom: 1px solid oklch(26.9% 0 0);\n
+    css`border-bottom: 1px solid oklch(26.9% 0 0);
         backdrop-filter: blur(24px);
         background-color: rgba(0, 0, 0, .5);` : 
-    css`border-bottom: 1px solid var(--background);\n
+    css`border-bottom: 1px solid var(--background);
         backdrop-filter: none;
         background-color: rgba(0, 0, 0, 0);`}
     @media (min-width: 1000px) {
         width: calc(100% - 512px);
         padding: 16px 256px;
+    }
+    @media (max-width: 1000px) {
+        border-bottom: 1px solid oklch(26.9% 0 0) !important;
+        backdrop-filter: blur(24px) !important;
+        background-color: rgba(0, 0, 0, .5) !important;
     }
 `
 
@@ -47,6 +52,10 @@ export const Buttons = styled.div`
     align-items: center;
     justify-content: center;
     gap: 8px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     @media (min-width: 700px) {
         display: flex;
     }
@@ -153,4 +162,31 @@ export const MenuLine = styled.div`
     height: 1px;
     margin-top: 10px;
     background-color: rgba(255, 255, 255, .1);
+`
+
+export const UserContainer = styled(Link)`
+    padding: 8px 16px;
+    border-radius: 12px;
+    background-color: var(--content);
+    display: none;
+    gap: 8px;
+    align-items: center;
+    transition-duration: 300ms;
+    cursor: pointer;
+    &:hover {
+        scale: 105%;
+    }
+    @media (min-width: 700px) {
+        display: flex;
+    }
+`
+
+export const UserImage = styled.img`
+    width: 32px;
+    height: 32px;
+`
+
+export const Username = styled.h5`
+    font-size: 16px;
+    font-weight: 600;
 `

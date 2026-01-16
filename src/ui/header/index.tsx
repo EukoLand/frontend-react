@@ -1,15 +1,22 @@
 import { useEffect, useState } from "react";
 import { CustomAnchor, CustomButton } from "../custom-button";
 import Logo from "../logo";
-import { Buttons, Container, Login, Menu, MenuButton, MenuButtonLine, MenuLine, MenuLink, MenuLogin } from "./styles";
+import { Buttons, Container, Login, Menu, MenuButton, MenuButtonLine, MenuLine, MenuLink, MenuLogin, UserContainer, Username } from "./styles";
 import { useNavigate } from "react-router-dom";
 import { baseURL } from "@/main";
+import { useQuery } from "@tanstack/react-query";
+import getMainAccount from "@/lib/queries/linkedAccounts/getMainAccount";
+import HeadImage from "../head-image";
 
 export default function Header() {
     const navigate = useNavigate();
     const [scroll, setScroll] = useState<number>(0);
     const [opened, setOpened] = useState<boolean>(false);
     const [closing, setClosing] = useState<boolean>(false);
+    const { data: authData } = useQuery({
+        queryKey: ['getMainAccount'],
+        queryFn: getMainAccount, 
+    });
     useEffect(() => {
         setScroll(document.documentElement.scrollTop)
         const handleScroll = () => {
@@ -42,7 +49,7 @@ export default function Header() {
                     authWindow.close();
                     navigate("/user/profile");
                 }
-            } catch {}
+            } catch { /* empty */ }
         }, 1000);
     }
 
@@ -68,7 +75,21 @@ export default function Header() {
                     Вики
                 </CustomAnchor>
             </Buttons>
-            <Login onClick={onLogin}>Войти</Login>
+            {
+                authData === undefined
+                    ? <Login onClick={onLogin}>Войти</Login>
+                    : <UserContainer to="user/profile">
+                        <HeadImage size={32} nickname={authData.nickname} />
+                        <Username>
+                            {
+                                authData.nickname === undefined
+                                    ? "Профиль"
+                                    : authData.nickname
+                            }
+                        </Username>
+                    </UserContainer>
+            }
+            
             <MenuButton 
                 $opened={opened} 
                 onClick={() => opened ? hide() : setOpened(true)}

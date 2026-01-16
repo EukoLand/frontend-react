@@ -1,6 +1,7 @@
 import Logo from "@/ui/logo";
 import { 
     Background, 
+    Button, 
     Buttons, 
     Container, 
     Content, 
@@ -8,7 +9,6 @@ import {
     Subtitle, 
     Titles
 } from "./style";
-import { CustomAnchor } from "@/ui/custom-button";
 
 export default function Intro() {
     return(
@@ -23,7 +23,7 @@ export default function Intro() {
                     Сбалансированный геймплей, дружелюбное сообщество и честный донат. Присоединяйся к игрокам, которые ценят качество. 
                 </Description>
                 <Buttons>
-                    <CustomAnchor 
+                    <Button 
                         href="#start"
                         $padding={[16, 32]}
                         $font={18} 
@@ -33,8 +33,8 @@ export default function Intro() {
                         $animation="scale"
                     >
                         Начать играть
-                    </CustomAnchor>
-                    <CustomAnchor 
+                    </Button>
+                    <Button 
                         $padding={[16, 32]} 
                         $font={18} 
                         $weight={600} 
@@ -45,7 +45,7 @@ export default function Intro() {
                         $outline="2px solid rgba(255, 255, 255, 0.3)"
                     >
                         Узнать больше
-                    </CustomAnchor>
+                    </Button>
                 </Buttons>
             </Content>
         </Container>

@@ -1,36 +1,13 @@
 import { Block, Header } from "../../styles";
-import { Main, MainAccount, MainImage, MainText, MainTitle, MainUsername, OnlinePinger, OtherAccount, OtherAccounts, OtherImage, OtherOnline, Others, OthersTitle, OtherText, OtherUsername, Register, Top } from "./styled";
+import { Main, MainAccount, MainText, MainTitle, MainUsername, OtherAccount, OtherAccounts, OtherImage, Others, OthersTitle, OtherText, OtherUsername, Register, Top } from "./styled";
 import { MdVerified } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
 import getMainAccount from "@/lib/queries/linkedAccounts/getMainAccount";
 import getHead from "@/lib/utils/head";
 import formatDate from "@/lib/utils/fotmatDate";
 import getOtherAccounts from "@/lib/queries/linkedAccounts/getOtherAccounts";
+import HeadImage from "@/ui/head-image";
 
-// const mainAccount: IAccount = {
-//     id: '1',
-//     // image: 'https://mc-heads.net/avatar/Phemida/64',
-//     // isOnline: true,
-//     registration: '15.01.2024',
-//     username: 'Phemida',
-// }
-
-// const otherAccounts: IAccount[] = [
-//     {
-//         id: '2',
-//         // image: 'https://mc-heads.net/avatar/Gravedigger/48',
-//         // isOnline: false,
-//         registration: '51.52.2023',
-//         username: 'Uzi82',
-//     },
-//     {
-//         id: '3',
-//         // image: 'https://mc-heads.net/avatar/Gravedigger/48',
-//         // isOnline: true,
-//         // registration: '21.12.2023',
-//         username: 'Gordon',
-//     },
-// ]
 
 export default function Accounts() {
     const { data: mainAccount } = useQuery({
@@ -67,7 +44,10 @@ export default function Accounts() {
                     ОСНОВНОЙ АККАУНТ
                 </MainTitle>
                 <MainAccount>
-                    <MainImage src={getHead(mainAccount !== undefined ? mainAccount.nickname : "profile/steve.png")} onError={(e) => e.currentTarget.src = "/profile/steve.png"} />
+                    <HeadImage
+                        size={64}
+                        nickname={mainAccount?.nickname || "profile/steve.png"}
+                    />
                     <MainText>
                         <MainUsername>
                             {mainAccount !== undefined ? mainAccount.nickname : "Неизвестный игрок"}

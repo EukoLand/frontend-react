@@ -36,12 +36,6 @@ export const MainAccount = styled.div`
     gap: 16px;
 `
 
-export const MainImage = styled.img`
-    height: 64px;
-    width: 64px;
-    border-radius: 8px;
-`
-
 export const MainText = styled.div`
     display: flex;
     flex-direction: column;
