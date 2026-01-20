@@ -46,7 +46,7 @@ export default function Accounts() {
                 <MainAccount>
                     <HeadImage
                         size={64}
-                        nickname={mainAccount?.nickname || "profile/steve.png"}
+                        nickname={mainAccount?.nickname}
                     />
                     <MainText>
                         <MainUsername>

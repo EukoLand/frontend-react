@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 export const ImageLoaderContainer = styled.div<{ $preview: boolean }>`
     width: 100%;
@@ -112,4 +112,49 @@ export const PreviewSize = styled.h5`
     font-size: 14px;
     font-weight: 400;
     opacity: .5;
+`
+
+const flippx = keyframes`
+    0%, 49.9% {
+        transform: scaleX(1);
+    }
+    50%, 100% {
+        transform: scaleX(-1);
+    }
+`
+
+const spin = keyframes`
+    100% {
+        transform: rotate(360deg);
+    }
+`
+
+export const LoadingSpinner = styled.span`
+    height: 50%;
+    aspect-ratio: 1.52;
+    position: relative;
+    animation: ${flippx} 2s infinite linear;
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        width: 40%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: #FFF;
+        transform-origin: -60% 50%;
+        animation: ${spin} 1s infinite linear;
+    }
+    &::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50% , -50%);
+        background: #fff;
+        width: 90%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+    }
 `

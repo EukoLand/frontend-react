@@ -10,7 +10,6 @@ interface Response {
 
 export default async function getMainAccount(): Promise<IAccount> {
     const res = await axios.get<Response>("/player/main");
-    console.log(res.data.nickname)
     return {
         ...res.data,
         createdAt: new Date(res.data.createdAt),

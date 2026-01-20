@@ -1,8 +1,8 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Container, CurrentLink, Links, MenuButton, MenuButtonLine, OutletContainer, OutletContent, OutletHeader, Sidebar, SideLink } from "./styles";
 import { Down } from "@icon-park/react";
 import { useEffect, useState, type ReactNode } from "react";
-import { Arrow, Avatar, Profile, ProfileButton, ProfileLeft, ProfileText, Role, Username } from "./styles/profile";
+import { Arrow, Profile, ProfileButton, ProfileLeft, ProfileText, Role, Username } from "./styles/profile";
 import { Character, CharacterAvatar, CharacterName, CharactersList, CharacterText, CharacterType, LinkedAccounts } from "./styles/character";
 import { IoIosLink } from "react-icons/io";
 import { BsPerson } from "react-icons/bs";
@@ -13,7 +13,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "@/store/account";
 import getHead from "@/lib/utils/head";
 import getLinkedAccounts from "@/lib/queries/getLinkedAccounts";
+import HeadImage from "@/ui/head-image";
 import type { LinkedAccount } from "@/lib/types/accounts";
+import getMainAccount from "@/lib/queries/linkedAccounts/getMainAccount";
 
 interface Route {
     label: string;
@@ -64,10 +66,23 @@ export default function UserLayout() {
     const [opened, setOpened] = useState<boolean>(false);
     const [closing, setClosing] = useState<boolean>(false);
     const { account, setAccount } = useAccount();
+    const navigation = useNavigate();
     const { data } = useQuery({
         queryKey: ["idenrify"],
         queryFn: getLinkedAccounts,
-    })
+    });
+    const { data: mainAccont } = useQuery({
+        queryKey: [""],
+        queryFn: () => {
+            try {
+                return getMainAccount();
+            } catch {
+                navigation("/");
+                return;
+            }
+        }
+    });
+
     const location = useLocation();
 
     useEffect(() => {
@@ -109,18 +124,18 @@ export default function UserLayout() {
                 <Profile>
                     <ProfileButton disabled={accountAnim} onClick={profileHandler}>
                         <ProfileLeft>
-                            <Avatar src={
-                                getHead(
-                                    (account !== null && data !== undefined && data.filter(el => el.id === account.id).length === 1) 
-                                        ? data.filter(el => el.id === account.id)[0].nickname
-                                        :  "profile/steve.png"
-                                )
-                            } onError={(e) => e.currentTarget.src = "/profile/steve.png"} />
+                            {
+                                (account !== null && data !== undefined && data.filter(el => el.id === account.id).length === 1)
+                                    &&  <HeadImage 
+                                            nickname={account.nickname} 
+                                            size={32}
+                                        />
+                            }
                             <ProfileText>
                                 <Username>
                                     { 
                                         (account !== null && data !== undefined && data.filter(el => el.id === account.id).length === 1)
-                                            ?   data.filter(el => el.id === account.id)[0].nickname
+                                            ?   account.nickname
                                             :  "Не выбран"
                                     }
                                 </Username>

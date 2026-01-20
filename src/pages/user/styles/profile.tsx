@@ -20,12 +20,16 @@ export const ProfileText = styled.div`
 
 export const Username = styled.h3`
     color: inherit;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
+    max-width: 108px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 `
 
 export const Role = styled.h4`
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 300;
     color: white;
     opacity: .5;

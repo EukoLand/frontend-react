@@ -1,4 +1,4 @@
-import type { LinkedAccount } from '@/lib/types/identify';
+import type { LinkedAccount } from '@/lib/types/accounts';
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware';
 

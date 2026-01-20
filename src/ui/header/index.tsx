@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { CustomAnchor, CustomButton } from "../custom-button";
 import Logo from "../logo";
-import { Buttons, Container, Login, Menu, MenuButton, MenuButtonLine, MenuLine, MenuLink, MenuLogin, UserContainer, Username } from "./styles";
+import { Buttons, Container, Login, Menu, MenuButton, MenuButtonLine, MenuLine, MenuLink, MenuLogin, UserContainer, UserContainerMobile, Username } from "./styles";
 import { useNavigate } from "react-router-dom";
 import { baseURL } from "@/main";
 import { useQuery } from "@tanstack/react-query";
@@ -104,9 +104,22 @@ export default function Header() {
                         Вики
                     </MenuLink>
                     <MenuLine />
-                    <MenuLogin to={"/"}>
-                        Войти
-                    </MenuLogin>
+                    {
+                        authData === undefined
+                            ?   <MenuLogin onClick={onLogin}>
+                                    Войти
+                                </MenuLogin>
+                            :   <UserContainerMobile to="user/profile">
+                                    <HeadImage size={32} nickname={authData.nickname} />
+                                    <Username>
+                                        {
+                                            authData.nickname === undefined
+                                                ? "Профиль"
+                                                : authData.nickname
+                                        }
+                                    </Username>
+                                </UserContainerMobile>
+                    }
                 </Menu>
             </MenuButton>
         </Container>

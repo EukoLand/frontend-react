@@ -1,9 +1,13 @@
 import { CustomButton } from "@/ui/custom-button";
 import Modal from "@/ui/modal";
 import { useRef, useState, type ChangeEvent } from "react";
-import { Buttons, CheckPreview, Context, Error, Form, ImageLoader, ImageLoaderBg, ImageLoaderContainer, PreviewData, PreviewName, PreviewSize, PreviewSkin } from "./style";
+import { Buttons, CheckPreview, Context, Error, Form, ImageLoader, ImageLoaderBg, ImageLoaderContainer, LoadingSpinner, PreviewData, PreviewName, PreviewSize, PreviewSkin } from "./style";
 import { GrCloudUpload } from "react-icons/gr";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import changeSkin from "@/lib/queries/profile/skins/changeSkin";
+import { useAccount } from "@/store/account";
+import { toast } from "react-toastify";
 
 interface IForm {
     images: FileList | undefined;
@@ -18,11 +22,23 @@ interface PreviewImage {
 export default function ChangeSkin() {
     const [open, setOpen] = useState<boolean>(false);
     const [anim, setAnim] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
     const [block, setBlock] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>(undefined);
     const [checkPreviewState, setCheckPreview] = useState<PreviewImage>();
     const previewCheckerRef = useRef<HTMLImageElement>(null);
     const [preview, setPreview] = useState<PreviewImage>();
+    const { account } = useAccount();
+    const { mutateAsync } = useMutation({
+        mutationKey: ["changeSkin"],
+        mutationFn: ({
+            skin,
+            nickname
+        }: {
+            skin: File,
+            nickname: string,
+        }) => changeSkin(skin, nickname),
+    });
     const { register, watch, handleSubmit, setValue } = useForm<IForm>({
         mode: 'onSubmit',
         reValidateMode: 'onSubmit',
@@ -54,7 +70,6 @@ export default function ChangeSkin() {
     }
 
     const onSubmit: SubmitHandler<IForm> = async (data) => {
-        console.log(curr)
         try {
             if(data === undefined || data.images === undefined) {
                 setError("Отсутствует изображение");
@@ -72,6 +87,22 @@ export default function ChangeSkin() {
             if(image.size / 1024 / 1024 > 5) {
                 setError("Размер изображения не должен превышать 5МБ");
                 return;
+            }
+            if(account === null) {
+                toast.error("Непредвиденная ошибка клиента")
+                return;
+            }
+            try {
+                setLoading(true);
+                await mutateAsync({
+                    skin: image,
+                    nickname: account.nickname
+                });
+                toast.success("Скин успешно обновлён!");
+                onClose();
+                setLoading(false);
+            } catch {
+                toast.error("Ошибка");
             }
         } catch {
             setError("Непредвиденная ошибка");
@@ -197,6 +228,7 @@ export default function ChangeSkin() {
                     <Buttons>
                         <CustomButton
                             onClick={onClose}
+                            type="button"
                             $rounded={8}
                             $animation="background"
                             $animationvalue="var(--content-fourth)"
@@ -210,7 +242,7 @@ export default function ChangeSkin() {
                             Отмена
                         </CustomButton>
                         <CustomButton
-                            disabled={curr === undefined || curr.item(0) == null}
+                            disabled={curr === undefined || curr.item(0) == null || loading}
                             $rounded={8}
                             $animation="background"
                             $animationvalue="rgba(var(--red-rgb), .5)"
@@ -221,7 +253,11 @@ export default function ChangeSkin() {
                             $padding={[12, 16]}
                             $fullOn={600}
                         >
-                            Загрузить
+                            {
+                                loading
+                                    ? <LoadingSpinner />
+                                    : "Загрузить"
+                            }
                         </CustomButton>
                     </Buttons>
                 </Form>

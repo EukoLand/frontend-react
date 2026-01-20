@@ -147,7 +147,7 @@ export const MenuLink = styled(Link)<{ $primary?: boolean }>`
     }
 `
 
-export const MenuLogin = styled(Link)`
+export const MenuLogin = styled.button`
     width: calc(100% - 36px);
     padding: 12px 18px;
     border-radius: 8px;
@@ -178,6 +178,21 @@ export const UserContainer = styled(Link)`
     }
     @media (min-width: 700px) {
         display: flex;
+    }
+`
+
+export const UserContainerMobile = styled(Link)`
+    width: calc(100% - 24px);
+    padding: 12px;
+    border-radius: 12px;
+    background-color: var(--content-second);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    transition-duration: 300ms;
+    cursor: pointer;
+    @media (min-width: 700px) {
+        display: none;
     }
 `
 
